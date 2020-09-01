@@ -10,6 +10,10 @@ public class DatabaseFunctions {
 	private static Connection con;
 	private static boolean hasData = false;
 	
+	public DatabaseFunctions() throws ClassNotFoundException, SQLException {
+		getConnection();
+	}
+	
 	private void getConnection() throws ClassNotFoundException, SQLException {
 		Class.forName("org.sqlite.JDBC");
 		con = DriverManager.getConnection("jdbc:sqlite:ServerData.db");
@@ -27,11 +31,15 @@ public class DatabaseFunctions {
 		//todo: Name of table has to be added
 		
 		if(!result.next()) {
-			System.out.println("Building the necessary tables");
-			Statement buildState = con.createStatement();
-			buildState.execute("CREATE TABLE x()");
-			//todo add tables that need to be created
+			buildTables();
 		}
 		
+	}
+	
+	private void buildTables() throws SQLException {
+		System.out.println("Building the necessary tables");
+		Statement buildState = con.createStatement();
+		buildState.execute("CREATE TABLE x()");
+		//todo add tables that need to be created
 	}
 }
