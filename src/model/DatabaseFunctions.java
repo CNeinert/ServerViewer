@@ -7,8 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DatabaseFunctions {
-	private static Connection con;
-	private static boolean hasData = false;
+	private Connection con;
+	private boolean hasData = false;
 	
 	public DatabaseFunctions() throws ClassNotFoundException, SQLException {
 		getConnection();
@@ -28,7 +28,6 @@ public class DatabaseFunctions {
 			hasData = true;
 		Statement state = con.createStatement();
 		ResultSet result = state.executeQuery("SELECT name FROM sqlite_master WHERE type='table' and name = 'Servers'");
-		//todo: Name of table has to be added
 		
 		if(!result.next()) {
 			buildTables();
