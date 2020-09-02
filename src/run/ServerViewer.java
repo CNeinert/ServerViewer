@@ -1,10 +1,18 @@
 package run;
 
-public class ServerViewer {
+import controller.Page;
+import javafx.application.Application;
+import javafx.stage.Stage;
 
+public class ServerViewer extends Application{
+
+	public void start(Stage primaryStage) {
+		controller.Page page = new Page(primaryStage);
+		page.show();
+	}
+	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		launch(args);
 	}
 
 }
