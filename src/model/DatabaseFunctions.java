@@ -17,8 +17,6 @@ public class DatabaseFunctions {
 	private void getConnection() throws ClassNotFoundException, SQLException {
 		Class.forName("org.sqlite.JDBC");
 		con = DriverManager.getConnection("jdbc:sqlite:ServerData.db");
-		//DatabaseData.db is the name of the file if changed has to change here to
-		// file doesn't exist currently
 		
 		initialise();
 	}
