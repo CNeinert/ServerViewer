@@ -27,7 +27,7 @@ public class DatabaseFunctions {
 		if(!hasData) 
 			hasData = true;
 		Statement state = con.createStatement();
-		ResultSet result = state.executeQuery("SELECT name FROM sqlite_master WHERE type='table' and name = ''");
+		ResultSet result = state.executeQuery("SELECT name FROM sqlite_master WHERE type='table' and name = 'Servers'");
 		//todo: Name of table has to be added
 		
 		if(!result.next()) {
@@ -39,7 +39,22 @@ public class DatabaseFunctions {
 	private void buildTables() throws SQLException {
 		System.out.println("Building the necessary tables");
 		Statement buildState = con.createStatement();
-		buildState.execute("CREATE TABLE x()");
-		//todo add tables that need to be created
+		buildState.execute("CREATE TABLE Servers ("
+				+ "id integer NOT NULL PRIMARY KEY,"
+				+ "servername text,"
+				+ "ip text not null,"
+				+ "port int not null,"
+				+ "user text not null,"
+				+ "password text not null,"
+				+ "os text not null"
+				+ ")");
+		buildState.execute("CREATE TABLE Programms ("
+				+ "id integer not null primary key,"
+				+ "server_fk integer not null,"
+				+ "programm_name text not null,"
+				+ "programm_version text not null,"
+				+ "last_request text not null,"
+				+ "foreign key(server_fk) references Servers(id)"
+				+ ")");
 	}
 }
