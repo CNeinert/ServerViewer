@@ -7,7 +7,9 @@ import java.util.*;
 public class ServerConnection {
 
 	model.Server obj_server;
+	String str_serverHash = "";
 	Map<String, String> map_programVersions = new HashMap<>();
+	Boolean boo_isConnectionFailed = false;
 	
 	public ServerConnection() {
 		this.obj_server = new model.Server();
@@ -21,9 +23,27 @@ public class ServerConnection {
 		this.setServer(obj_server);
 	}
 	
-	public String execute(String str_command) {
+	public Boolean isConfigurationValid() {
+		if(!(this.getServerHash().equals(this.setServerHash()))) {
+			if(this.execute("whoami", true).trim().equals(this.getServer().getUser())) {
+				this.boo_isConnectionFailed = false;
+			} else {
+				this.boo_isConnectionFailed = true;
+			}
+		}
+		return !this.boo_isConnectionFailed;
+	}
+	
+	public String execute (String str_command) {
+		return this.execute(str_command, false);
+	}
+	
+	private String execute(String str_command, Boolean boo_ignoreConfigTest) {
 		if(!this.isServerConfigured()) {
 			return "ERROR: Server not configured";
+		}
+		if(!boo_ignoreConfigTest && !this.isConfigurationValid()) {
+			return "ERROR: Server configuration not valid";
 		}
 		String str_return = "";
 		
@@ -42,7 +62,7 @@ public class ServerConnection {
 			((ChannelExec)obj_channel).setErrStream(obj_byteOutputErrorStream);
 			InputStream obj_inputStream = obj_channel.getInputStream();
 			obj_channel.connect();
-			if(new String(obj_byteOutputErrorStream.toByteArray()).isBlank()) {
+			if(new String(obj_byteOutputErrorStream.toByteArray()).isEmpty()) {
 				str_return = new String(obj_inputStream.readAllBytes());
 			} else {
 				str_return = "ERROR: " + new String(obj_byteOutputErrorStream.toByteArray());
@@ -63,9 +83,17 @@ public class ServerConnection {
 			&& this.getServer().getUser() != ""
 			&& this.getServer().getPassword() != ""
 		){
-			return true;
+				return true;
 		}
 		return false;
+	}
+	
+	private String getServerHash() {
+		return this.str_serverHash;
+	}
+	private String setServerHash() {
+		this.str_serverHash = this.getServer().getHash();
+		return this.getServerHash();
 	}
 	
 	private ServerConnection setServer(model.Server obj_server) {
@@ -76,7 +104,7 @@ public class ServerConnection {
 		return this.obj_server;
 	}
 	public ServerConnection setServerById(Integer int_id) {
-		this.obj_server = model.Server.getServerById(int_id);
+		this.setServer(model.Server.getServerById(int_id));
 		return this;
 	}
 	
@@ -91,7 +119,7 @@ public class ServerConnection {
 		return obj_programVersions;
 	}
 	public Map<String, String> getProgramVersions() {
-		if(this.map_programVersions.isEmpty()) {
+		if( !this.getServerHash().equals(this.getServer().getHash()) || (this.map_programVersions.isEmpty() && this.isServerConfigured() && this.isConfigurationValid()) ) {
 			this.setProgramVersions();
 		}
 		return this.map_programVersions;
@@ -101,6 +129,7 @@ public class ServerConnection {
 		
 		if(str_output.startsWith("ERROR")) {
 			System.out.println(str_output);
+			this.map_programVersions.clear();
 			return this;
 		}
 		

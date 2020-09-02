@@ -95,4 +95,14 @@ public class Server {
 		this.str_password = str_password;
 		return this;
 	}
+	
+	public String getHash() {
+		return
+			this.getHost() + "|"
+			+ this.getPassword() + "|"
+			+ this.getUser() + "|"
+			+ Integer.toString(this.getId()) + "|"
+			+ Integer.toString(this.getPort())
+		;
+	}
 }
