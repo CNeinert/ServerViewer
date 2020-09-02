@@ -7,21 +7,25 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class DatabaseFunctions {
+public class Database {
 	private Connection con;
 	private boolean hasData = false;
 	
-	public DatabaseFunctions() throws ClassNotFoundException, SQLException {
+	public Database() throws ClassNotFoundException, SQLException {
 		getConnection();
 	}
 	
-	public void insertServer() throws SQLException {
+	public Server insertServer(Server server) throws SQLException {
 		PreparedStatement buildState = con.prepareStatement("INSERT INTO Servers"
-				+ "(servername, ip, port, user, password, os) AS"
+				+ "(name, ip, port, user, password, os) AS"
 				+ "(?, ?, ?, ?, ?, ?);");
 		//todo add params example drunter
-		buildState.setString(1, "");
-		
+		buildState.setString(1, Server.getName());
+		buildState.setString(2, Server.getIp());
+		buildState.setString(3, Server.getPort());
+		buildState.setString(4, Server.getUser());
+		buildState.setString(5, Server.getPassword());
+		buildState.setString(6, Server.getOs());
 	}
 	
 	private void getConnection() throws ClassNotFoundException, SQLException {
@@ -48,7 +52,7 @@ public class DatabaseFunctions {
 		Statement buildState = con.createStatement();
 		buildState.execute("CREATE TABLE Servers ("
 				+ "id integer NOT NULL PRIMARY KEY,"
-				+ "servername text,"
+				+ "name text,"
 				+ "ip text not null,"
 				+ "port int not null,"
 				+ "user text not null,"
