@@ -2,6 +2,7 @@ package model;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -12,6 +13,15 @@ public class DatabaseFunctions {
 	
 	public DatabaseFunctions() throws ClassNotFoundException, SQLException {
 		getConnection();
+	}
+	
+	public void insertServer() throws SQLException {
+		PreparedStatement buildState = con.prepareStatement("INSERT INTO Servers"
+				+ "(servername, ip, port, user, password, os) AS"
+				+ "(?, ?, ?, ?, ?, ?);");
+		//todo add params example drunter
+		buildState.setString(1, "");
+		
 	}
 	
 	private void getConnection() throws ClassNotFoundException, SQLException {
@@ -25,7 +35,7 @@ public class DatabaseFunctions {
 		if(!hasData) 
 			hasData = true;
 		Statement state = con.createStatement();
-		ResultSet result = state.executeQuery("SELECT name FROM sqlite_master WHERE type='table' and name = 'Servers'");
+		ResultSet result = state.executeQuery("SELECT name FROM sqlite_master WHERE type='table' and name = 'Servers';");
 		
 		if(!result.next()) {
 			buildTables();
@@ -44,7 +54,7 @@ public class DatabaseFunctions {
 				+ "user text not null,"
 				+ "password text not null,"
 				+ "os text not null"
-				+ ")");
+				+ ");");
 		buildState.execute("CREATE TABLE Programms ("
 				+ "id integer not null primary key,"
 				+ "server_fk integer not null,"
@@ -52,6 +62,6 @@ public class DatabaseFunctions {
 				+ "programm_version text not null,"
 				+ "last_request text not null,"
 				+ "foreign key(server_fk) references Servers(id)"
-				+ ")");
+				+ ");");
 	}
 }
