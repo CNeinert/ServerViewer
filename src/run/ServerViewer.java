@@ -3,9 +3,9 @@ package run;
 public class ServerViewer {
 	
 	public static void main(String[] args) {
-		obj_connectionTest.getServer().setHost("test");
 		
 		controller.ServerConnection obj_connectionTest = new controller.ServerConnection(1);
+		obj_connectionTest.getServer().setHost("test");
 		String[] arr_programsToCheck = {
 			"xauth",
 			"sudo",
