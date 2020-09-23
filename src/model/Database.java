@@ -20,12 +20,12 @@ public class Database {
 				+ "(name, ip, port, user, password, os) AS"
 				+ "(?, ?, ?, ?, ?, ?);");
 		//todo add params example drunter
-		buildState.setString(1, Server.getName());
-		buildState.setString(2, Server.getIp());
-		buildState.setString(3, Server.getPort());
-		buildState.setString(4, Server.getUser());
-		buildState.setString(5, Server.getPassword());
-		buildState.setString(6, Server.getOs());
+		buildState.setString(1, server.getName());
+		buildState.setString(2, server.getIp());
+		buildState.setInt(3, server.getPort());
+		buildState.setString(4, server.getUser());
+		buildState.setString(5, server.getPassword());
+		buildState.setString(6, server.getOs());
 	}
 	
 	private void getConnection() throws ClassNotFoundException, SQLException {
