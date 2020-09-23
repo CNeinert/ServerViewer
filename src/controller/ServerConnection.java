@@ -125,7 +125,7 @@ public class ServerConnection {
 		return this.map_programVersions;
 	}
 	public ServerConnection setProgramVersions() {
-		String str_output = this.execute("apt list --installed");
+		String str_output = this.execute("apt list --installed 2>null");
 		
 		if(str_output.startsWith("ERROR")) {
 			System.out.println(str_output);
