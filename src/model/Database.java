@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+// video von dem alles kopiert ist https://www.youtube.com/watch?v=JPsWaI5Z3gs
+
 public class Database {
 	private Connection con;
 	private boolean hasData = false;
