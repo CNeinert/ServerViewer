@@ -9,13 +9,12 @@ public class ServerViewer {
 		
 		System.out.print("Setup server connection... ");
 		controller.ServerConnection obj_connectionTest = new controller.ServerConnection(1);
-		obj_connectionTest.getServer().setHost("test");
 		System.out.println("done.");
 		
 		
 		String[] arr_programsToCheck = {
 			
-			"sudo"
+			"sudo", "nano"
 			
 		};
 		System.out.print("Start scanning... ");

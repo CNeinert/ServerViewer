@@ -50,25 +50,34 @@ public class ServerConnection {
 		try {
 			JSch obj_jsch = new JSch();
 			
+			//Erstellung eines Verbindungsobjekts des Servers.
 			Session obj_session = obj_jsch.getSession(this.getServer().getUser(), this.getServer().getHost(), this.getServer().getPort());
 			obj_session.setPassword(this.getServer().getPassword());
 			obj_session.setConfig("StrictHostKeyChecking", "no");
+			obj_session.setTimeout(10000); //Nach 10 Sekunden wird der Verbindungsaufbau abgebrochen. 
 			obj_session.connect();
 			
+			//neue Shell session vorbereiten
 			Channel obj_channel = obj_session.openChannel("exec");
 			((ChannelExec)obj_channel).setCommand(str_command);
 			obj_channel.setInputStream(null);
+			//Errorchannel der Servershell
 			ByteArrayOutputStream obj_byteOutputErrorStream = new ByteArrayOutputStream();
 			((ChannelExec)obj_channel).setErrStream(obj_byteOutputErrorStream);
+			//Ausgabe des Servers
 			InputStream obj_inputStream = obj_channel.getInputStream();
+			//Shell wird geöffnet
 			obj_channel.connect();
+			//WENN vom Server kein Error kommt...
 			if(new String(obj_byteOutputErrorStream.toByteArray()).isEmpty()) {
+				//..dann lies die Antwort des Servers
 				str_return = new String(obj_inputStream.readAllBytes());
 			} else {
+				//.. Sonst: Fehler
 				str_return = "ERROR: " + new String(obj_byteOutputErrorStream.toByteArray());
 			}
-			obj_channel.disconnect();
-			obj_session.disconnect();
+			obj_channel.disconnect();//shell beenden
+			obj_session.disconnect();//session beenden
 		} catch(Exception e) {
 			str_return = "ERROR: Unable to communicate with server";
 		}
@@ -125,7 +134,8 @@ public class ServerConnection {
 		return this.map_programVersions;
 	}
 	public ServerConnection setProgramVersions() {
-		String str_output = this.execute("apt list --installed 2>null");
+		//TODO: Switch-case -> OS Unterscheidung
+		String str_output = this.execute("apt list --installed 2>/dev/null");
 		
 		if(str_output.startsWith("ERROR")) {
 			System.out.println(str_output);
