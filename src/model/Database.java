@@ -21,13 +21,14 @@ public class Database {
 		PreparedStatement buildState = con.prepareStatement("INSERT INTO Servers"
 				+ "(name, ip, port, user, password, os) AS"
 				+ "(?, ?, ?, ?, ?, ?);");
-		//todo add params example drunter
 		buildState.setString(1, server.getName());
 		buildState.setString(2, server.getIp());
 		buildState.setInt(3, server.getPort());
 		buildState.setString(4, server.getUser());
 		buildState.setString(5, server.getPassword());
 		buildState.setString(6, server.getOs());
+		
+		buildState.execute();
 	}
 	
 	private void getConnection() throws ClassNotFoundException, SQLException {
@@ -52,22 +53,34 @@ public class Database {
 	private void buildTables() throws SQLException {
 		System.out.println("Building the necessary tables");
 		Statement buildState = con.createStatement();
-		buildState.execute("CREATE TABLE Servers ("
-				+ "id integer NOT NULL PRIMARY KEY,"
-				+ "name text,"
-				+ "ip text not null,"
-				+ "port int not null,"
-				+ "user text not null,"
-				+ "password text not null,"
-				+ "os text not null"
+		buildState.execute("CREATE TABLE Users ("
+				+ "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+				+ "username TEXT NOT NULL,"
+				+ "password TEXT NOT NULL,"
+				+ "salt TEXT NOT NULL"
 				+ ");");
-		buildState.execute("CREATE TABLE Programms ("
-				+ "id integer not null primary key,"
-				+ "server_fk integer not null,"
-				+ "programm_name text not null,"
-				+ "programm_version text not null,"
-				+ "last_request text not null,"
-				+ "foreign key(server_fk) references Servers(id)"
+		buildState.execute("CREATE TABLE Servers ("
+				+ "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+				+ "servername TEXT NOT NULL,"
+				+ "serverbezeichnung TEXT NOT NULL,"
+				+ "ip TEXT NOT NULL,"
+				+ "port INTEGER NOT NULL,"
+				+ "user TEXT NOT NULL,"
+				+ "password TEXT NOT NULL,"
+				+ "os TEXT NOT NULL"
+				+ ");");
+		buildState.execute("CREATE TABLE Programs ("
+				+ "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+				+ "program TEXT NOT NULL,"
+				+ "version TEXT NOT NULL,"
+				+ "last_request TEXT NOT NULL"
+				+ ");");
+		buildState.execute("CREATE TABLE Servers_Programs"
+				+ "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+				+ "server_fk INTEGER NOT NULL,"
+				+ "program_fk INTEGER NOT NULL,"
+				+ "FOREIGN KEY (server_fk) REFERENCES Servers (id),"
+				+ "FOREIGN KEY (program_fk) REFERENCES Programs (id)"
 				+ ");");
 	}
 }
