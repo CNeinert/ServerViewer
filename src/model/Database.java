@@ -19,16 +19,39 @@ public class Database {
 	
 	public Server insertServer(Server server) throws SQLException {
 		PreparedStatement buildState = con.prepareStatement("INSERT INTO Servers"
-				+ "(name, ip, port, user, password, os) AS"
-				+ "(?, ?, ?, ?, ?, ?);");
+				+ "(servername, serverbezeichnung, ip, port, user, password, os) AS"
+				+ "(?, ?, ?, ?, ?, ?, ?);");
 		buildState.setString(1, server.getName());
-		buildState.setString(2, server.getIp());
-		buildState.setInt(3, server.getPort());
-		buildState.setString(4, server.getUser());
-		buildState.setString(5, server.getPassword());
-		buildState.setString(6, server.getOs());
+		buildState.setString(2, Server.getBezeichnung());
+		buildState.setString(3, server.getIp());
+		buildState.setInt(4, server.getPort());
+		buildState.setString(5, server.getUser());
+		buildState.setString(6, server.getPassword());
+		buildState.setString(7, server.getOs());
 		
 		buildState.execute();
+	}
+	
+	public Server getServer(int id) throws SQLException {
+		PreparedStatement buildState = con.prepareStatement("SELECT id, servername, serverbezeichnung, ip, port, user, password, os "
+				+ "FROM Servers"
+				+ "WHERE id = ?"
+				+ "");
+		buildState.setInt(1, id);		
+		ResultSet result = buildState.executeQuery();
+					
+		Server rServer = new Server();			
+		
+		rServer.setId(result.getInt("id"));
+		rServer.setName(result.getString("servername"));
+		rServer.setBezeichnung(result.getString("serverbezeichnung"));
+		rServer.setIp(result.getString("ip"));
+		rServer.setPort(result.getInt("port"));
+		rServer.setUser(result.getString("user"));
+		rServer.setPassword(result.getString("password"));
+		rServer.setOs(result.getString("os"));
+		
+		return rServer;
 	}
 	
 	private void getConnection() throws ClassNotFoundException, SQLException {
