@@ -39,7 +39,8 @@ public class Database {
 				+ "");
 		buildState.setInt(1, id);		
 		ResultSet result = buildState.executeQuery();
-					
+		result.next();
+		
 		Server rServer = new Server();			
 		
 		rServer.setId(result.getInt("id"));
@@ -52,6 +53,32 @@ public class Database {
 		rServer.setOs(result.getString("os"));
 		
 		return rServer;
+	}
+	
+	public Server[] getServers() throws SQLException {
+		
+		PreparedStatement buildState = con.prepareStatement("SELECT id, servername, serverbezeichnung, ip, port, user, password, os "
+				+ "FROM Servers");	
+		ResultSet result = buildState.executeQuery();
+				
+		Server[] servers = new Server[result.getFetchSize()];
+		
+		int i = 0;
+		while(result.next()) {
+			servers[i] = new Server();
+			
+			servers[i].setId(result.getInt("id"));
+			servers[i].setName(result.getString("servername"));
+			servers[i].setBezeichnung(result.getString("serverbezeichnung"));
+			servers[i].setIp(result.getString("ip"));
+			servers[i].setPort(result.getInt("port"));
+			servers[i].setUser(result.getString("user"));
+			servers[i].setPassword(result.getString("password"));
+			servers[i].setOs(result.getString("os"));
+			
+			i++;
+		}
+		return servers;
 	}
 	
 	private void getConnection() throws ClassNotFoundException, SQLException {
