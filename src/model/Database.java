@@ -51,6 +51,7 @@ public class Database {
 		rServer.setUser(result.getString("user"));
 		rServer.setPassword(result.getString("password"));
 		rServer.setOs(result.getString("os"));
+		rServer.setEnabled(result.getInt("enabled"));
 		
 		return rServer;
 	}
@@ -75,6 +76,7 @@ public class Database {
 			servers[i].setUser(result.getString("user"));
 			servers[i].setPassword(result.getString("password"));
 			servers[i].setOs(result.getString("os"));
+			servers[i].setEnabled(result.getInt("enabled"));
 			
 			i++;
 		}
@@ -91,7 +93,8 @@ public class Database {
 				+ "port = ?,"
 				+ "user= ?,"
 				+ "password = ?,"
-				+ "os = ?"
+				+ "os = ?,"
+				+ "enabled = ?"
 				+ "WHERE id = ?"
 				+ ";");
 		buildState.setString(1, server.getName());
@@ -101,7 +104,8 @@ public class Database {
 		buildState.setString(5, server.getUser());
 		buildState.setString(6, server.getPassword());
 		buildState.setString(7, server.getOs());
-		buildState.setInt(8, server.getId());
+		buildState.setInt(8, server.getEnabled());
+		buildState.setInt(9, server.getId());
 		ResultSet result = buildState.executeQuery();
 	return server;
 	}
@@ -142,6 +146,7 @@ public class Database {
 				+ "port INTEGER NOT NULL,"
 				+ "user TEXT NOT NULL,"
 				+ "password TEXT NOT NULL,"
+				+ "enabled INTEGER NOT NULL DEFAULT 1"
 				+ "os TEXT NOT NULL"
 				+ ");");
 		buildState.execute("CREATE TABLE Programs ("
