@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 // video von dem alles kopiert ist https://www.youtube.com/watch?v=JPsWaI5Z3gs
 
@@ -21,7 +23,7 @@ public class Database {
 		PreparedStatement buildState = con.prepareStatement("INSERT INTO Servers"
 				+ "(servername, serverbezeichnung, ip, port, user, password, os) AS"
 				+ "(?, ?, ?, ?, ?, ?, ?);");
-		buildState.setString(1, server.getName());
+		buildState.setString(1, server.getServername());
 		buildState.setString(2, server.getBezeichnung());
 		buildState.setString(3, server.getIp());
 		buildState.setInt(4, server.getPort());
@@ -30,6 +32,8 @@ public class Database {
 		buildState.setString(7, server.getOs());
 		
 		buildState.execute();
+		
+		return server;
 	}
 	
 	public Server getServer(int id) throws SQLException {
@@ -44,14 +48,18 @@ public class Database {
 		Server rServer = new Server();			
 		
 		rServer.setId(result.getInt("id"));
-		rServer.setName(result.getString("servername"));
+		rServer.setServername(result.getString("servername"));
 		rServer.setBezeichnung(result.getString("serverbezeichnung"));
 		rServer.setIp(result.getString("ip"));
 		rServer.setPort(result.getInt("port"));
 		rServer.setUser(result.getString("user"));
 		rServer.setPassword(result.getString("password"));
 		rServer.setOs(result.getString("os"));
-		rServer.setEnabled(result.getInt("enabled"));
+		
+		if(result.getInt("enabled") == 1)
+			rServer.setEnabled(true);
+		else
+			rServer.setEnabled(false);
 		
 		return rServer;
 	}
@@ -69,21 +77,25 @@ public class Database {
 			servers[i] = new Server();
 			
 			servers[i].setId(result.getInt("id"));
-			servers[i].setName(result.getString("servername"));
+			servers[i].setServername(result.getString("servername"));
 			servers[i].setBezeichnung(result.getString("serverbezeichnung"));
 			servers[i].setIp(result.getString("ip"));
 			servers[i].setPort(result.getInt("port"));
 			servers[i].setUser(result.getString("user"));
 			servers[i].setPassword(result.getString("password"));
 			servers[i].setOs(result.getString("os"));
-			servers[i].setEnabled(result.getInt("enabled"));
+			
+			if(result.getInt("enabled") == 1)
+				servers[i].setEnabled(true);
+			else
+				servers[i].setEnabled(false);
 			
 			i++;
 		}
 		return servers;
 	}
 	
-	public Server updateServer(Server server) {
+	public Server updateServer(Server server) throws SQLException {
 	
 		PreparedStatement buildState = con.prepareStatement(""
 				+ "UPDATE Servers SET"
@@ -97,20 +109,25 @@ public class Database {
 				+ "enabled = ?"
 				+ "WHERE id = ?"
 				+ ";");
-		buildState.setString(1, server.getName());
+		buildState.setString(1, server.getServername());
 		buildState.setString(2, server.getBezeichnung());
 		buildState.setString(3, server.getIp());
 		buildState.setInt(4, server.getPort());
 		buildState.setString(5, server.getUser());
 		buildState.setString(6, server.getPassword());
 		buildState.setString(7, server.getOs());
-		buildState.setInt(8, server.getEnabled());
+		
+		if(server.getEnabled())
+			buildState.setInt(8, 1);
+		else
+			buildState.setInt(8, 0);
+		
 		buildState.setInt(9, server.getId());
-		ResultSet result = buildState.executeQuery();
+		buildState.executeQuery();
 	return server;
 	}
 	
-	public User insertUser(User user) {
+	public User insertUser(User user) throws SQLException {
 		PreparedStatement buildState = con.prepareStatement("INSERT INTO Users"
 				+ "(username, password, salt) AS"
 				+ "(?, ?, ?);");
@@ -123,21 +140,156 @@ public class Database {
 		return user;
 	}
 	
-	public User getUser(String username) {
+	public User getUser(String username) throws SQLException {
 		PreparedStatement buildState = con.prepareStatement("SELECT password, salt"
 				+ "FROM Users"
 				+ "WHERE username = ?"
-				+ "");
+				+ ";");
 		buildState.setString(1, username);		
 		ResultSet result = buildState.executeQuery();
 		result.next();
 		
-		Server rUser = new User();
+		User rUser = new User();
 		rUser.setUsername(result.getString("username"));
 		rUser.setPassword(result.getString("password"));
 		rUser.setSalt(result.getString("salt"));
 		
 		return rUser;
+	}
+	
+	public void insertProgramm(Program program, Server server) throws SQLException {
+		SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
+		Date date = new Date(System.currentTimeMillis());
+		
+		if(!programExists(program)) {
+			PreparedStatement buildStatePre = con.prepareStatement("INSERT INTO Programs"
+					+ "(program, version, last_request) AS"
+					+ "(?, ?, '"
+					+ formatter.format(date)
+					+ "');");
+			buildStatePre.setString(1, program.getProgramName());
+			buildStatePre.setString(2, program.getVersion());
+			
+			buildStatePre.execute();
+		}
+		PreparedStatement buildState = con.prepareStatement("INSERT INTO Programs_Servers"
+				+ "(server_fk, program_fk) AS"
+				+ "(("
+				+ "SELECT id"
+				+ "FROM programs"
+				+ "WHERE program = ?"
+				+ "AND version = ?"
+				+ "), ("
+				+ "SELECT id"
+				+ "FROM servers"
+				+ "WHERE ip = ?"
+				+ "));");
+		buildState.setString(1, program.getProgramName());
+		buildState.setString(2, program.getVersion());
+		buildState.setString(3, server.getIp());
+		
+		buildState.execute();		
+	}
+	
+	private Boolean programExists(Program program) throws SQLException {
+		PreparedStatement buildState = con.prepareStatement("SELECT id"
+				+ "FROM Programs"
+				+ "WHERE program = ?"
+				+ "AND version = ?"
+				+ ";");
+		buildState.setString(1, program.getProgramName());
+		buildState.setString(2, program.getVersion());
+		ResultSet result = buildState.executeQuery();		
+		
+		return result.next();
+	}
+	
+	public Program[] getProgramsFromServer(Server server) throws SQLException {
+		PreparedStatement buildState = con.prepareStatement("SELECT program, version, last_request"
+				+ "FROM Programs p"
+				+ "INNER JOIN Servers_Programs sp"
+				+ "ON p.id = sp.program_fk"
+				+ "WHERE sp.server_fk = ("
+				+ "	SELECT id"
+				+ "	FROM servers"
+				+ "	WHERE ip = ?"
+				+ ")");
+		buildState.setString(1, server.getIp());
+		ResultSet result = buildState.executeQuery();
+				
+		Program[] programs = new Program[result.getFetchSize()];
+		
+		int i = 0;
+		while(result.next()) {
+			programs[i] = new Program();
+			
+			programs[i].setProgramName(result.getString("program"));			
+			programs[i].setVersion(result.getString("version"));
+			programs[i].setLastRequest(result.getString("last_request"));
+			
+			updateLastRequest(programs[i]);
+			i++;
+		}
+		return programs;
+	}
+
+	public Server[] getServersFromProgram(Program program) throws SQLException {
+		PreparedStatement buildState = con.prepareStatement("SELECT id, servername, serverbezeichnung, ip, port, user, password, os"
+				+ "FROM servers s"
+				+ "INNER JOIN Servers_Programs sp"
+				+ "ON s.id = sp.server_fk"
+				+ "WHERE sp.program_fk = ("
+				+ "	SELECT id"
+				+ "	FROM programs"
+				+ "	WHERE program = ?"
+				+ "	AND version = ?"
+				+ ")");
+		buildState.setString(1, program.getProgramName());
+		buildState.setString(1, program.getVersion());
+		ResultSet result = buildState.executeQuery();
+				
+		Server[] servers = new Server[result.getFetchSize()];
+		
+		int i = 0;
+		while(result.next()) {
+			servers[i] = new Server();
+			
+			servers[i].setId(result.getInt("id"));
+			servers[i].setServername(result.getString("servername"));
+			servers[i].setBezeichnung(result.getString("serverbezeichnung"));
+			servers[i].setIp(result.getString("ip"));
+			servers[i].setPort(result.getInt("port"));
+			servers[i].setUser(result.getString("user"));
+			servers[i].setPassword(result.getString("password"));
+			servers[i].setOs(result.getString("os"));
+			
+			if(result.getInt("enabled") == 1)
+				servers[i].setEnabled(true);
+			else
+				servers[i].setEnabled(false);
+			
+			i++;
+		}
+		return servers;
+	}
+	
+
+	private void updateLastRequest(Program program) throws SQLException {
+		//Hier die Datums formatiereung für last_request anpassen
+		SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
+		Date date = new Date(System.currentTimeMillis());
+		
+		PreparedStatement buildState = con.prepareStatement(""
+				+ "UPDATE Programs SET"
+				+ "last_request = '"
+				+ formatter.format(date)
+				+ "',"
+				+ "WHERE program = ?,"
+				+ "AND version = ?"
+				+ ";");
+		buildState.setString(1, program.getProgramName());
+		buildState.setString(2, program.getVersion());
+		buildState.executeQuery();
 	}
 	
 	private void getConnection() throws ClassNotFoundException, SQLException {
