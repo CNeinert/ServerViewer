@@ -142,7 +142,7 @@ public class Database {
 		PreparedStatement buildState = con.prepareStatement("SELECT password, salt"
 				+ "FROM Users"
 				+ "WHERE username = ?"
-				+ "");
+				+ ";");
 		buildState.setString(1, username);		
 		ResultSet result = buildState.executeQuery();
 		result.next();
@@ -154,6 +154,54 @@ public class Database {
 		
 		return rUser;
 	}
+	
+	public void insertProgramm(Program program, Server server) throws SQLException {
+		if(!programExists(program)) {
+			PreparedStatement buildStatePre = con.prepareStatement("INSERT INTO Programs"
+					+ "(program, version, last_request) AS"
+					+ "(?, ?, ?);");
+			buildStatePre.setString(1, program.getProgramName());
+			buildStatePre.setString(2, program.getVersion());
+			buildStatePre.setString(3, program.getLastRequest());
+			
+			buildStatePre.execute();
+		}
+		PreparedStatement buildState = con.prepareStatement("INSERT INTO Programs_Servers"
+				+ "(server_fk, program_fk) AS"
+				+ "(("
+				+ "SELECT id"
+				+ "FROM programs"
+				+ "WHERE program = ?"
+				+ "AND version = ?"
+				+ "), ("
+				+ "SELECT id"
+				+ "FROM servers"
+				+ "WHERE ip = ?"
+				+ "));");
+		buildState.setString(1, program.getProgramName());
+		buildState.setString(2, program.getVersion());
+		buildState.setString(3, server.getIp());
+		
+		buildState.execute();		
+	}
+	
+	private Boolean programExists(Program program) throws SQLException {
+		PreparedStatement buildState = con.prepareStatement("SELECT id"
+				+ "FROM Programs"
+				+ "WHERE program = ?"
+				+ "AND version = ?"
+				+ ";");
+		buildState.setString(1, program.getProgramName());
+		buildState.setString(2, program.getVersion());
+		ResultSet result = buildState.executeQuery();		
+		
+		return result.next();
+	}
+	
+	//TODO hole alle Programme auf server x
+	//TODO hole alle Server mit programm y
+	
+	
 	
 	private void getConnection() throws ClassNotFoundException, SQLException {
 		Class.forName("org.sqlite.JDBC");
