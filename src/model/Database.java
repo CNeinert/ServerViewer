@@ -115,8 +115,8 @@ public class Database {
 				+ "(username, password, salt) AS"
 				+ "(?, ?, ?);");
 		buildState.setString(1, user.getUsername());
-		buildState.setString(2, server.getPassword());
-		buildState.setString(3, server.getSalt());
+		buildState.setString(2, user.getPassword());
+		buildState.setString(3, user.getSalt());
 		
 		buildState.execute();
 	}
