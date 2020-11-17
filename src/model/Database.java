@@ -198,7 +198,33 @@ public class Database {
 		return result.next();
 	}
 	
-	//TODO hole alle Programme auf server x
+	public Program[] getProgramsFromServer(Server server) throws SQLException {
+		PreparedStatement buildState = con.prepareStatement("SELECT program, version, last_request"
+				+ "FROM Programs p"
+				+ "INNER JOIN Servers_Programs sp"
+				+ "ON p.id = sp.program_fk"
+				+ "WHERE sp.server_fk = ("
+				+ "	SELECT id"
+				+ "	FROM servers"
+				+ "	WHERE ip = ?"
+				+ ")");
+		buildState.setString(1, server.getIp());
+		ResultSet result = buildState.executeQuery();
+				
+		Program[] programs = new Program[result.getFetchSize()];
+		
+		int i = 0;
+		while(result.next()) {
+			programs[i] = new Program();
+			
+			programs[i].setProgramName(result.getString("program"));			
+			programs[i].setVersion(result.getString("version"));
+			programs[i].setLastRequest(result.getString("last_request"));
+			
+			i++;
+		}
+		return programs;
+	}
 	//TODO hole alle Server mit programm y
 	
 	
