@@ -6,12 +6,19 @@ public class Server {
 	private String
 		str_host,
 		str_user,
-		str_password
+		str_password,
+		servername,
+		bezeichnung,
+		ip,
+		os
+		
 	;
 	private Integer
 		int_id,
 		int_port = 22
 	;
+	
+	private Boolean enabled;
 	
 	public static Server getServerById(Integer int_id) {
 		return new Server(int_id);
@@ -96,6 +103,47 @@ public class Server {
 		return this;
 	}
 	
+	
+	public String getServername() {
+		return servername;
+	}
+
+	public void setServername(String servername) {
+		this.servername = servername;
+	}
+
+	public String getBezeichnung() {
+		return bezeichnung;
+	}
+
+	public void setBezeichnung(String bezeichnung) {
+		this.bezeichnung = bezeichnung;
+	}
+
+	public String getIp() {
+		return ip;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
+
+	public String getOs() {
+		return os;
+	}
+
+	public void setOs(String os) {
+		this.os = os;
+	}
+
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
+
 	public String getHash() {
 		return
 			this.getHost() + "|"
