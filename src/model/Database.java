@@ -119,6 +119,25 @@ public class Database {
 		buildState.setString(3, user.getSalt());
 		
 		buildState.execute();
+		
+		return user;
+	}
+	
+	public User getUser(String username) {
+		PreparedStatement buildState = con.prepareStatement("SELECT password, salt"
+				+ "FROM Users"
+				+ "WHERE username = ?"
+				+ "");
+		buildState.setString(1, username);		
+		ResultSet result = buildState.executeQuery();
+		result.next();
+		
+		Server rUser = new User();
+		rUser.setUsername(result.getString("username"));
+		rUser.setPassword(result.getString("password"));
+		rUser.setSalt(result.getString("salt"));
+		
+		return rUser;
 	}
 	
 	private void getConnection() throws ClassNotFoundException, SQLException {
