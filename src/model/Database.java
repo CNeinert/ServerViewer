@@ -21,7 +21,7 @@ public class Database {
 		PreparedStatement buildState = con.prepareStatement("INSERT INTO Servers"
 				+ "(servername, serverbezeichnung, ip, port, user, password, os) AS"
 				+ "(?, ?, ?, ?, ?, ?, ?);");
-		buildState.setString(1, server.getName());
+		buildState.setString(1, server.getServername());
 		buildState.setString(2, server.getBezeichnung());
 		buildState.setString(3, server.getIp());
 		buildState.setInt(4, server.getPort());
@@ -30,6 +30,8 @@ public class Database {
 		buildState.setString(7, server.getOs());
 		
 		buildState.execute();
+		
+		return server;
 	}
 	
 	public Server getServer(int id) throws SQLException {
@@ -44,14 +46,18 @@ public class Database {
 		Server rServer = new Server();			
 		
 		rServer.setId(result.getInt("id"));
-		rServer.setName(result.getString("servername"));
+		rServer.setServername(result.getString("servername"));
 		rServer.setBezeichnung(result.getString("serverbezeichnung"));
 		rServer.setIp(result.getString("ip"));
 		rServer.setPort(result.getInt("port"));
 		rServer.setUser(result.getString("user"));
 		rServer.setPassword(result.getString("password"));
 		rServer.setOs(result.getString("os"));
-		rServer.setEnabled(result.getInt("enabled"));
+		
+		if(result.getInt("enabled") == 1)
+			rServer.setEnabled(true);
+		else
+			rServer.setEnabled(false);
 		
 		return rServer;
 	}
@@ -69,21 +75,25 @@ public class Database {
 			servers[i] = new Server();
 			
 			servers[i].setId(result.getInt("id"));
-			servers[i].setName(result.getString("servername"));
+			servers[i].setServername(result.getString("servername"));
 			servers[i].setBezeichnung(result.getString("serverbezeichnung"));
 			servers[i].setIp(result.getString("ip"));
 			servers[i].setPort(result.getInt("port"));
 			servers[i].setUser(result.getString("user"));
 			servers[i].setPassword(result.getString("password"));
 			servers[i].setOs(result.getString("os"));
-			servers[i].setEnabled(result.getInt("enabled"));
+			
+			if(result.getInt("enabled") == 1)
+				servers[i].setEnabled(true);
+			else
+				servers[i].setEnabled(false);
 			
 			i++;
 		}
 		return servers;
 	}
 	
-	public Server updateServer(Server server) {
+	public Server updateServer(Server server) throws SQLException {
 	
 		PreparedStatement buildState = con.prepareStatement(""
 				+ "UPDATE Servers SET"
@@ -97,20 +107,25 @@ public class Database {
 				+ "enabled = ?"
 				+ "WHERE id = ?"
 				+ ";");
-		buildState.setString(1, server.getName());
+		buildState.setString(1, server.getServername());
 		buildState.setString(2, server.getBezeichnung());
 		buildState.setString(3, server.getIp());
 		buildState.setInt(4, server.getPort());
 		buildState.setString(5, server.getUser());
 		buildState.setString(6, server.getPassword());
 		buildState.setString(7, server.getOs());
-		buildState.setInt(8, server.getEnabled());
+		
+		if(server.getEnabled())
+			buildState.setInt(8, 1);
+		else
+			buildState.setInt(8, 0);
+		
 		buildState.setInt(9, server.getId());
-		ResultSet result = buildState.executeQuery();
+		buildState.executeQuery();
 	return server;
 	}
 	
-	public User insertUser(User user) {
+	public User insertUser(User user) throws SQLException {
 		PreparedStatement buildState = con.prepareStatement("INSERT INTO Users"
 				+ "(username, password, salt) AS"
 				+ "(?, ?, ?);");
@@ -123,7 +138,7 @@ public class Database {
 		return user;
 	}
 	
-	public User getUser(String username) {
+	public User getUser(String username) throws SQLException {
 		PreparedStatement buildState = con.prepareStatement("SELECT password, salt"
 				+ "FROM Users"
 				+ "WHERE username = ?"
@@ -132,7 +147,7 @@ public class Database {
 		ResultSet result = buildState.executeQuery();
 		result.next();
 		
-		Server rUser = new User();
+		User rUser = new User();
 		rUser.setUsername(result.getString("username"));
 		rUser.setPassword(result.getString("password"));
 		rUser.setSalt(result.getString("salt"));
