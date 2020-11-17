@@ -6,6 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 // video von dem alles kopiert ist https://www.youtube.com/watch?v=JPsWaI5Z3gs
 
@@ -156,13 +159,17 @@ public class Database {
 	}
 	
 	public void insertProgramm(Program program, Server server) throws SQLException {
+		SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
+		Date date = new Date(System.currentTimeMillis());
+		
 		if(!programExists(program)) {
 			PreparedStatement buildStatePre = con.prepareStatement("INSERT INTO Programs"
 					+ "(program, version, last_request) AS"
-					+ "(?, ?, ?);");
+					+ "(?, ?, '"
+					+ formatter.format(date)
+					+ "');");
 			buildStatePre.setString(1, program.getProgramName());
 			buildStatePre.setString(2, program.getVersion());
-			buildStatePre.setString(3, program.getLastRequest());
 			
 			buildStatePre.execute();
 		}
@@ -221,6 +228,7 @@ public class Database {
 			programs[i].setVersion(result.getString("version"));
 			programs[i].setLastRequest(result.getString("last_request"));
 			
+			updateLastRequest(programs[i]);
 			i++;
 		}
 		return programs;
@@ -266,7 +274,24 @@ public class Database {
 		return servers;
 	}
 	
-	//TODO update last request
+
+	private void updateLastRequest(Program program) throws SQLException {
+		//Hier die Datums formatiereung für last_request anpassen
+		SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
+		Date date = new Date(System.currentTimeMillis());
+		
+		PreparedStatement buildState = con.prepareStatement(""
+				+ "UPDATE Programs SET"
+				+ "last_request = '"
+				+ formatter.format(date)
+				+ "',"
+				+ "WHERE program = ?,"
+				+ "AND version = ?"
+				+ ";");
+		buildState.setString(1, program.getProgramName());
+		buildState.setString(2, program.getVersion());
+		buildState.executeQuery();
+	}
 	
 	private void getConnection() throws ClassNotFoundException, SQLException {
 		Class.forName("org.sqlite.JDBC");
