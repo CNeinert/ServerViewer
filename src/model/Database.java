@@ -225,9 +225,48 @@ public class Database {
 		}
 		return programs;
 	}
-	//TODO hole alle Server mit programm y
+
+	public Server[] getServersFromProgram(Program program) throws SQLException {
+		PreparedStatement buildState = con.prepareStatement("SELECT id, servername, serverbezeichnung, ip, port, user, password, os"
+				+ "FROM servers s"
+				+ "INNER JOIN Servers_Programs sp"
+				+ "ON s.id = sp.server_fk"
+				+ "WHERE sp.program_fk = ("
+				+ "	SELECT id"
+				+ "	FROM programs"
+				+ "	WHERE program = ?"
+				+ "	AND version = ?"
+				+ ")");
+		buildState.setString(1, program.getProgramName());
+		buildState.setString(1, program.getVersion());
+		ResultSet result = buildState.executeQuery();
+				
+		Server[] servers = new Server[result.getFetchSize()];
+		
+		int i = 0;
+		while(result.next()) {
+			servers[i] = new Server();
+			
+			servers[i].setId(result.getInt("id"));
+			servers[i].setServername(result.getString("servername"));
+			servers[i].setBezeichnung(result.getString("serverbezeichnung"));
+			servers[i].setIp(result.getString("ip"));
+			servers[i].setPort(result.getInt("port"));
+			servers[i].setUser(result.getString("user"));
+			servers[i].setPassword(result.getString("password"));
+			servers[i].setOs(result.getString("os"));
+			
+			if(result.getInt("enabled") == 1)
+				servers[i].setEnabled(true);
+			else
+				servers[i].setEnabled(false);
+			
+			i++;
+		}
+		return servers;
+	}
 	
-	
+	//TODO update last request
 	
 	private void getConnection() throws ClassNotFoundException, SQLException {
 		Class.forName("org.sqlite.JDBC");
