@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 // video von dem alles kopiert ist https://www.youtube.com/watch?v=JPsWaI5Z3gs
