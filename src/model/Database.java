@@ -136,7 +136,8 @@ public class Database {
 				+ "id INTEGER PRIMARY KEY AUTOINCREMENT,"
 				+ "username TEXT NOT NULL,"
 				+ "password TEXT NOT NULL,"
-				+ "salt TEXT NOT NULL"
+				+ "salt TEXT NOT NULL,"
+				+ "CONSTRAINT unique_username UNIQUE (username)"
 				+ ");");
 		buildState.execute("CREATE TABLE Servers ("
 				+ "id INTEGER PRIMARY KEY AUTOINCREMENT,"
