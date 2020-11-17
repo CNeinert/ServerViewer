@@ -110,6 +110,17 @@ public class Database {
 	return server;
 	}
 	
+	public User insertUser(User user) {
+		PreparedStatement buildState = con.prepareStatement("INSERT INTO Users"
+				+ "(username, password, salt) AS"
+				+ "(?, ?, ?);");
+		buildState.setString(1, user.getUsername());
+		buildState.setString(2, server.getPassword());
+		buildState.setString(3, server.getSalt());
+		
+		buildState.execute();
+	}
+	
 	private void getConnection() throws ClassNotFoundException, SQLException {
 		Class.forName("org.sqlite.JDBC");
 		con = DriverManager.getConnection("jdbc:sqlite:ServerData.db");
