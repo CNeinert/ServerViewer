@@ -99,4 +99,15 @@ public class DataController {
 			e.printStackTrace();
 		}
 	}
+	
+	public static User getUser(String username) {
+		try {
+			return db.getUser(username);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
 }
