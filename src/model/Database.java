@@ -273,7 +273,6 @@ public class Database {
 		return servers;
 	}
 	
-
 	private void updateLastRequest(Program program) throws SQLException {
 		//Hier die Datums formatiereung für last_request anpassen
 		SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
