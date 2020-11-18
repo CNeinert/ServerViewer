@@ -4,10 +4,6 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.sql.SQLException;
-
-import jdk.internal.org.jline.reader.impl.history.DefaultHistory;
-import model.Database;
 import model.User;
 
 public class Authentication {
