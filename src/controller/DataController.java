@@ -3,6 +3,7 @@ package controller;
 import java.sql.SQLException;
 
 import model.Database;
+import model.Program;
 import model.Server;
 
 public class DataController {
@@ -34,6 +35,15 @@ public class DataController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
+	}
+	
+	public static void SaveProgram(Program program, Server server) {
+		try {
+			db.insertProgramm(program, server);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 }
