@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import model.Database;
 import model.Program;
 import model.Server;
+import model.User;
 
 public class DataController {
 	
@@ -88,5 +89,14 @@ public class DataController {
 		}
 		
 		return null;
+	}
+	
+	public static void SaveNewUser(User user) {
+		try {
+			db.insertUser(user);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
