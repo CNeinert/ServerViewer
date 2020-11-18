@@ -36,8 +36,9 @@ public class ServerViewer {
 		 for( Entry<Object, Program> me:st)
 		    {
 			  Program output = me.getValue();
-			  DataController.SaveProgram(output, Server.getServerById(1));
 			  System.out.println(output.getProgramName()+ "  -  "+output.getVersion());
+			  DataController.SaveProgram(output, Server.getServerById(1));
+			 
 		    }
 	}
 }

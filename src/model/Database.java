@@ -164,7 +164,7 @@ public class Database {
 		
 		if(!programExists(program)) {
 			PreparedStatement buildStatePre = con.prepareStatement("INSERT INTO Programs"
-					+ "(program, version, last_request) AS"
+					+ " (program, version, last_request) AS "
 					+ "(?, ?, '"
 					+ formatter.format(date)
 					+ "');");
@@ -173,17 +173,17 @@ public class Database {
 			
 			buildStatePre.execute();
 		}
-		PreparedStatement buildState = con.prepareStatement("INSERT INTO Programs_Servers"
-				+ "(server_fk, program_fk) AS"
+		PreparedStatement buildState = con.prepareStatement("INSERT INTO Programs_Servers "
+				+ "(server_fk, program_fk) AS "
 				+ "(("
-				+ "SELECT id"
-				+ "FROM programs"
-				+ "WHERE program = ?"
-				+ "AND version = ?"
-				+ "), ("
-				+ "SELECT id"
-				+ "FROM servers"
-				+ "WHERE ip = ?"
+				+ "SELECT id "
+				+ "FROM programs "
+				+ "WHERE program = ? "
+				+ "AND version = ? " 
+				+ "), ( "
+				+ "SELECT id "
+				+ "FROM servers "
+				+ "WHERE ip = ? "
 				+ "));");
 		buildState.setString(1, program.getProgramName());
 		buildState.setString(2, program.getVersion());
@@ -194,8 +194,8 @@ public class Database {
 	
 	private Boolean programExists(Program program) throws SQLException {
 		PreparedStatement buildState = con.prepareStatement("SELECT id"
-				+ "FROM Programs"
-				+ "WHERE program = ?"
+				+ " FROM Programs "
+				+ "WHERE program = ? "
 				+ "AND version = ?"
 				+ ";");
 		buildState.setString(1, program.getProgramName());
@@ -329,7 +329,7 @@ public class Database {
 				+ "port INTEGER NOT NULL,"
 				+ "user TEXT NOT NULL,"
 				+ "password TEXT NOT NULL,"
-				+ "enabled INTEGER NOT NULL DEFAULT 1"
+				+ "enabled INTEGER NOT NULL DEFAULT 1,"
 				+ "os TEXT NOT NULL"
 				+ ");");
 		buildState.execute("CREATE TABLE Programs ("
@@ -338,7 +338,7 @@ public class Database {
 				+ "version TEXT NOT NULL,"
 				+ "last_request TEXT NOT NULL"
 				+ ");");
-		buildState.execute("CREATE TABLE Servers_Programs"
+		buildState.execute("CREATE TABLE Servers_Programs("
 				+ "id INTEGER PRIMARY KEY AUTOINCREMENT,"
 				+ "server_fk INTEGER NOT NULL,"
 				+ "program_fk INTEGER NOT NULL,"
