@@ -67,4 +67,15 @@ public class DataController {
 			}
 		}
 	}
+	
+	public static Program[] getProgramsFromServer(Server server) {
+		try {
+			return db.getProgramsFromServer(server);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
 }
