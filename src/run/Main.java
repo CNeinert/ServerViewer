@@ -12,7 +12,11 @@ public class Main extends Application{
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("ServerViewer.fxml"));
         primaryStage.setTitle("ServerViewer");
-        primaryStage.setScene(new Scene(root, 400, 300));
+        primaryStage.setMinHeight(450);
+		primaryStage.setMinWidth(675);
+        Scene scene = new Scene(root, 650, 400);
+        scene.getStylesheets().add("/run/base.css");
+        primaryStage.setScene(scene);
         primaryStage.show();
     }
 	
