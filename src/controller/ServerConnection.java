@@ -1,6 +1,9 @@
 package controller;
 
 import com.jcraft.jsch.*;
+
+import model.Program;
+
 import java.io.*;
 import java.util.*;
 
@@ -8,7 +11,7 @@ public class ServerConnection {
 
 	model.Server obj_server;
 	String str_serverHash = "";
-	Map<String, String> map_programVersions = new HashMap<>();
+	Map<Object, Program> map_programVersions = new HashMap<>();
 	Boolean boo_isConnectionFailed = false;
 	
 	public ServerConnection() {
@@ -117,17 +120,17 @@ public class ServerConnection {
 		return this;
 	}
 	
-	public String getProgramVersion(String str_program) {
+	public Program getProgramVersion(String str_program) {
 		return this.getProgramVersions().get(str_program);
 	}
-	public Map<String, String> getProgramVersions(String[] arr_programs) {
-		Map<String, String> obj_programVersions = new HashMap<>();
+	public Map<Object, Program> getProgramVersions(String[] arr_programs) {
+		Map<Object, Program> obj_programVersions = new HashMap<>();
 		for(String str_program : arr_programs) {
 			obj_programVersions.put(str_program, this.getProgramVersions().get(str_program));
 		}
 		return obj_programVersions;
 	}
-	public Map<String, String> getProgramVersions() {
+	public Map<Object, Program> getProgramVersions() {
 		if( !this.getServerHash().equals(this.getServer().getHash()) || (this.map_programVersions.isEmpty() && this.isServerConfigured() && this.isConfigurationValid()) ) {
 			this.setProgramVersions();
 		}
@@ -145,7 +148,14 @@ public class ServerConnection {
 		
 		for (String str_line : str_output.split("\n")) {
 			if(str_line.contains("/")) {
-				this.map_programVersions.put(str_line.substring(0, str_line.indexOf('/')), str_line.split(" ")[1]);
+				String programString = new String();
+				String progName = new String();
+				String proVersion = new String();
+				programString = str_line.substring(0, str_line.indexOf('/'));
+				progName = str_line.split(" ")[0];
+				proVersion = str_line.split(" ")[1];
+				Program program = new Program(progName, proVersion);
+				this.map_programVersions.put(program, program);
 			}
 		}
 		

@@ -11,6 +11,11 @@ public class Program {
 		// TODO Auto-generated constructor stub
 	}
 	
+	public Program(String Name, String Version) {
+		this.setProgramName(Name);
+		this.setVersion(Version);
+	}
+	
 
 	public String getProgramName() {
 		return programName;
