@@ -110,4 +110,15 @@ public class DataController {
 		
 		return null;
 	}
+	
+	public static Server updateServer(Server server) {
+		try {
+			return db.updateServer(server);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
 }
