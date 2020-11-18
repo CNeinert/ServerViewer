@@ -38,6 +38,16 @@ public class DataController {
 		}
 	}
 	
+	public static Server[] getAllServers() {
+		try {
+			return db.getServers();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	public static void SaveProgram(Program program, Server server) {
 		try {
 			db.insertProgramm(program, server);
