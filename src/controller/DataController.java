@@ -26,4 +26,14 @@ public class DataController {
 		}
 	}
 	
+	public static void SaveServers(Server[] servers) {
+		for(Server server : servers) {
+			try {
+				db.insertServer(server);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 }
