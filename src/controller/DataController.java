@@ -46,4 +46,15 @@ public class DataController {
 			e.printStackTrace();
 		}
 	}
+	
+	public static void SaveProgramsFromServer(Program[] programs, Server server) {
+		for(Program program : programs) {
+			try {
+				db.insertProgramm(program, server);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 }
