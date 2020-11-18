@@ -1,5 +1,9 @@
 package controller;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.sql.SQLException;
 
 import jdk.internal.org.jline.reader.impl.history.DefaultHistory;
@@ -7,64 +11,52 @@ import model.Database;
 import model.User;
 
 public class Authentication {
-	private Database db;
-	public Authentication() {
+	
+	public String hashPassword( String password, String dbSalt) {
 		
+		MessageDigest md = null;
 		try {
-			db = new Database();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
+			md = MessageDigest.getInstance("SHA-512");
+			byte[] saltyBytes = dbSalt.getBytes(StandardCharsets.UTF_8);
+			md.update(saltyBytes);
+			byte[] hashedPassword = md.digest(password.getBytes(StandardCharsets.UTF_8));
+			return hashedPassword.toString();
+		} catch (NoSuchAlgorithmException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-	
-	public boolean userExists(String username) {
 		
-		User user = db.getUser(username);
-		if (user.getUsername().equals(username)) {
-			return true;
-		}
-		return false;
-	}
-	
-	public String saltPassword( String password, String salt) {
 		return "";
 	}
 	
-	public String generateSaltedPassword( String password) {
-		return "";
+	public String hashPassword( String password) {
+		String salt = this.generateSalt();
+		return hashPassword(password, salt);
 	}
 	
-	public String hashPassword( String saltedPassword) {
-		return "";
+	public String generateSalt() {
+		SecureRandom random = new SecureRandom();
+		byte[] salt = new byte[16];
+		random.nextBytes(salt);
+		return salt.toString();
 	}
 	
-	public boolean enterdPasswordIsCorrect(String enteredPassword, String dbPassword) {
-		return false;
+	
+	
+	public boolean enterdPasswordIsCorrect(String enteredPassword, String dbPassword, String dbSalt) {
+		String enteredPass = this.hashPassword(enteredPassword, dbSalt);
+		return dbPassword.equals(enteredPass);
 	}
 	
 	public boolean authUser(String username, String password) {
 		//Get Database Object;
-		
+		User user = DataController.getUser(username);
 		//Check if the User exists
-		if (!userExists(username)) {
-			return false;
-		}
-		String saltedPassword = saltPassword(password, salt);
-		String hashedPassword = hashPassword(saltedPassword);
-		saltedPassword = new String();
-		password = new String();
-		//TODO Check hashed password with the one from the db
-		if (true) {
-			return true;
+		if (user.getUsername() != null) {
+			return this.enterdPasswordIsCorrect(password, user.getPassword(), user.getSalt());
 		}else {
 			return false;
-		}
-		
-		return false;
+		}	
 	}
 	
 
