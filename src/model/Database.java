@@ -173,7 +173,7 @@ public class Database {
 			
 			buildStatePre.execute();
 		}
-		PreparedStatement buildState = con.prepareStatement("INSERT INTO Programs_Servers "
+		PreparedStatement buildState = con.prepareStatement("INSERT INTO Servers_Programs "
 				+ "(server_fk, program_fk) VALUES "
 				+ "(("
 				+ "SELECT id "
@@ -338,7 +338,7 @@ public class Database {
 				+ "version TEXT NOT NULL, "
 				+ "last_request TEXT NOT NULL"
 				+ ");");
-		buildState.execute("CREATE TABLE Servers_Programs("
+		buildState.execute("CREATE TABLE Servers_Programs ("
 				+ "id INTEGER PRIMARY KEY AUTOINCREMENT, "
 				+ "server_fk INTEGER NOT NULL, "
 				+ "program_fk INTEGER NOT NULL, "
