@@ -21,8 +21,8 @@ public class Database {
 	}
 	
 	public Server insertServer(Server server) throws SQLException {
-		PreparedStatement buildState = con.prepareStatement("INSERT INTO Servers"
-				+ "(servername, serverbezeichnung, ip, port, user, password, os) AS"
+		PreparedStatement buildState = con.prepareStatement("INSERT INTO Servers "
+				+ "(servername, serverbezeichnung, ip, port, user, password, os) VALUES "
 				+ "(?, ?, ?, ?, ?, ?, ?);");
 		buildState.setString(1, server.getServername());
 		buildState.setString(2, server.getBezeichnung());
@@ -39,9 +39,9 @@ public class Database {
 	
 	public Server getServer(int id) throws SQLException {
 		PreparedStatement buildState = con.prepareStatement("SELECT id, servername, serverbezeichnung, ip, port, user, password, os "
-				+ "FROM Servers"
+				+ "FROM Servers "
 				+ "WHERE id = ?"
-				+ "");
+				+ ";");
 		buildState.setInt(1, id);		
 		ResultSet result = buildState.executeQuery();
 		result.next();
@@ -68,7 +68,7 @@ public class Database {
 	public Server[] getServers() throws SQLException {
 		
 		PreparedStatement buildState = con.prepareStatement("SELECT id, servername, serverbezeichnung, ip, port, user, password, os "
-				+ "FROM Servers");	
+				+ "FROM Servers;");	
 		ResultSet result = buildState.executeQuery();
 				
 		Server[] servers = new Server[result.getFetchSize()];
@@ -99,15 +99,15 @@ public class Database {
 	public Server updateServer(Server server) throws SQLException {
 	
 		PreparedStatement buildState = con.prepareStatement(""
-				+ "UPDATE Servers SET"
-				+ "servername = ?,"
-				+ "serverbezeichnung = ?,"
-				+ "ip = ?,"
-				+ "port = ?,"
-				+ "user= ?,"
-				+ "password = ?,"
-				+ "os = ?,"
-				+ "enabled = ?"
+				+ "UPDATE Servers SET "
+				+ "servername = ?, "
+				+ "serverbezeichnung = ?, "
+				+ "ip = ?, "
+				+ "port = ?, "
+				+ "user= ?, "
+				+ "password = ?, "
+				+ "os = ?, "
+				+ "enabled = ? "
 				+ "WHERE id = ?"
 				+ ";");
 		buildState.setString(1, server.getServername());
@@ -129,8 +129,8 @@ public class Database {
 	}
 	
 	public User insertUser(User user) throws SQLException {
-		PreparedStatement buildState = con.prepareStatement("INSERT INTO Users"
-				+ "(username, password, salt) AS"
+		PreparedStatement buildState = con.prepareStatement("INSERT INTO Users "
+				+ "(username, password, salt) VALUES "
 				+ "(?, ?, ?);");
 		buildState.setString(1, user.getUsername());
 		buildState.setString(2, user.getPassword());
@@ -142,8 +142,8 @@ public class Database {
 	}
 	
 	public User getUser(String username) throws SQLException {
-		PreparedStatement buildState = con.prepareStatement("SELECT password, salt"
-				+ "FROM Users"
+		PreparedStatement buildState = con.prepareStatement("SELECT password, salt "
+				+ "FROM Users "
 				+ "WHERE username = ?"
 				+ ";");
 		buildState.setString(1, username);		
@@ -163,8 +163,8 @@ public class Database {
 		Date date = new Date(System.currentTimeMillis());
 		
 		if(!programExists(program)) {
-			PreparedStatement buildStatePre = con.prepareStatement("INSERT INTO Programs"
-					+ " (program, version, last_request) AS "
+			PreparedStatement buildStatePre = con.prepareStatement("INSERT INTO Programs "
+					+ " (program, version, last_request) VALUES "
 					+ "(?, ?, '"
 					+ formatter.format(date)
 					+ "');");
@@ -174,16 +174,16 @@ public class Database {
 			buildStatePre.execute();
 		}
 		PreparedStatement buildState = con.prepareStatement("INSERT INTO Programs_Servers "
-				+ "(server_fk, program_fk) AS "
+				+ "(server_fk, program_fk) VALUES "
 				+ "(("
 				+ "SELECT id "
 				+ "FROM programs "
 				+ "WHERE program = ? "
 				+ "AND version = ? " 
-				+ "), ( "
+				+ "), ("
 				+ "SELECT id "
 				+ "FROM servers "
-				+ "WHERE ip = ? "
+				+ "WHERE ip = ?"
 				+ "));");
 		buildState.setString(1, program.getProgramName());
 		buildState.setString(2, program.getVersion());
@@ -193,8 +193,8 @@ public class Database {
 	}
 	
 	private Boolean programExists(Program program) throws SQLException {
-		PreparedStatement buildState = con.prepareStatement("SELECT id"
-				+ " FROM Programs "
+		PreparedStatement buildState = con.prepareStatement("SELECT id "
+				+ "FROM Programs "
 				+ "WHERE program = ? "
 				+ "AND version = ?"
 				+ ";");
@@ -206,15 +206,15 @@ public class Database {
 	}
 	
 	public Program[] getProgramsFromServer(Server server) throws SQLException {
-		PreparedStatement buildState = con.prepareStatement("SELECT program, version, last_request"
+		PreparedStatement buildState = con.prepareStatement("SELECT program, version, last_request "
 				+ "FROM Programs p"
-				+ "INNER JOIN Servers_Programs sp"
-				+ "ON p.id = sp.program_fk"
+				+ "INNER JOIN Servers_Programs sp "
+				+ "ON p.id = sp.program_fk "
 				+ "WHERE sp.server_fk = ("
-				+ "	SELECT id"
-				+ "	FROM servers"
+				+ "	SELECT id "
+				+ "	FROM servers "
 				+ "	WHERE ip = ?"
-				+ ")");
+				+ ");");
 		buildState.setString(1, server.getIp());
 		ResultSet result = buildState.executeQuery();
 				
@@ -235,14 +235,14 @@ public class Database {
 	}
 
 	public Server[] getServersFromProgram(Program program) throws SQLException {
-		PreparedStatement buildState = con.prepareStatement("SELECT id, servername, serverbezeichnung, ip, port, user, password, os"
-				+ "FROM servers s"
-				+ "INNER JOIN Servers_Programs sp"
-				+ "ON s.id = sp.server_fk"
+		PreparedStatement buildState = con.prepareStatement("SELECT id, servername, serverbezeichnung, ip, port, user, password, os "
+				+ "FROM servers s "
+				+ "INNER JOIN Servers_Programs sp "
+				+ "ON s.id = sp.server_fk "
 				+ "WHERE sp.program_fk = ("
-				+ "	SELECT id"
-				+ "	FROM programs"
-				+ "	WHERE program = ?"
+				+ "	SELECT id "
+				+ "	FROM programs "
+				+ "	WHERE program = ? "
 				+ "	AND version = ?"
 				+ ")");
 		buildState.setString(1, program.getProgramName());
@@ -280,11 +280,11 @@ public class Database {
 		Date date = new Date(System.currentTimeMillis());
 		
 		PreparedStatement buildState = con.prepareStatement(""
-				+ "UPDATE Programs SET"
+				+ "UPDATE Programs SET "
 				+ "last_request = '"
 				+ formatter.format(date)
-				+ "',"
-				+ "WHERE program = ?,"
+				+ "', "
+				+ "WHERE program = ?, "
 				+ "AND version = ?"
 				+ ";");
 		buildState.setString(1, program.getProgramName());
@@ -315,34 +315,34 @@ public class Database {
 		System.out.println("Building the necessary tables");
 		Statement buildState = con.createStatement();
 		buildState.execute("CREATE TABLE Users ("
-				+ "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-				+ "username TEXT NOT NULL,"
-				+ "password TEXT NOT NULL,"
-				+ "salt TEXT NOT NULL,"
+				+ "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+				+ "username TEXT NOT NULL, "
+				+ "password TEXT NOT NULL, "
+				+ "salt TEXT NOT NULL, "
 				+ "CONSTRAINT unique_username UNIQUE (username)"
 				+ ");");
 		buildState.execute("CREATE TABLE Servers ("
-				+ "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-				+ "servername TEXT NOT NULL,"
-				+ "serverbezeichnung TEXT NOT NULL,"
-				+ "ip TEXT NOT NULL,"
-				+ "port INTEGER NOT NULL,"
-				+ "user TEXT NOT NULL,"
-				+ "password TEXT NOT NULL,"
-				+ "enabled INTEGER NOT NULL DEFAULT 1,"
+				+ "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+				+ "servername TEXT NOT NULL, "
+				+ "serverbezeichnung TEXT NOT NULL, "
+				+ "ip TEXT NOT NULL, "
+				+ "port INTEGER NOT NULL, "
+				+ "user TEXT NOT NULL, "
+				+ "password TEXT NOT NULL, "
+				+ "enabled INTEGER NOT NULL DEFAULT 1, "
 				+ "os TEXT NOT NULL"
 				+ ");");
 		buildState.execute("CREATE TABLE Programs ("
-				+ "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-				+ "program TEXT NOT NULL,"
-				+ "version TEXT NOT NULL,"
+				+ "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+				+ "program TEXT NOT NULL, "
+				+ "version TEXT NOT NULL, "
 				+ "last_request TEXT NOT NULL"
 				+ ");");
 		buildState.execute("CREATE TABLE Servers_Programs("
-				+ "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-				+ "server_fk INTEGER NOT NULL,"
-				+ "program_fk INTEGER NOT NULL,"
-				+ "FOREIGN KEY (server_fk) REFERENCES Servers (id),"
+				+ "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+				+ "server_fk INTEGER NOT NULL, "
+				+ "program_fk INTEGER NOT NULL, "
+				+ "FOREIGN KEY (server_fk) REFERENCES Servers (id), "
 				+ "FOREIGN KEY (program_fk) REFERENCES Programs (id)"
 				+ ");");
 	}
