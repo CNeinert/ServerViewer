@@ -9,7 +9,8 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
+//TODO lösch funktionen schreiben für ggf Program und Server
+// nicht vergessen es muss auch aus der Servers_Programs tabelle gelöscht werden
 // video von dem alles kopiert ist https://www.youtube.com/watch?v=JPsWaI5Z3gs
 
 public class Database {
@@ -173,34 +174,30 @@ public class Database {
 			
 			buildStatePre.execute();
 		}
-		PreparedStatement buildState = con.prepareStatement("INSERT INTO Servers_Programs "
-				+ "(server_fk, program_fk) VALUES "
-				+ "(("
-				+ "SELECT id "
-				+ "FROM programs "
-				+ "WHERE program = ? "
-				+ "AND version = ? " 
-				+ "), ("
-				+ "SELECT id "
-				+ "FROM servers "
-				+ "WHERE ip = ?"
-				+ "));");
-		buildState.setString(1, program.getProgramName());
-		buildState.setString(2, program.getVersion());
-		buildState.setString(3, server.getIp());
+		PreparedStatement buildState = con.prepareStatement("INSERT INTO Servers_Programs (server_fk, program_fk) "
+				+ "SELECT s.id, p.id "
+				+ "FROM servers s "
+				+ "CROSS JOIN programs p "
+				+ "WHERE s.ip = ? "
+				+ "AND p.program = ? "
+				+ "AND p.version = ?"
+				+ ";");
+		buildState.setString(1, server.getIp());
+		buildState.setString(2, program.getProgramName());
+		buildState.setString(3, program.getVersion());
 		
 		buildState.execute();		
 	}
 	
 	private Boolean programExists(Program program) throws SQLException {
-		PreparedStatement buildState = con.prepareStatement("SELECT id "
+		PreparedStatement buildState = con.prepareStatement("SELECT * "
 				+ "FROM Programs "
 				+ "WHERE program = ? "
 				+ "AND version = ?"
 				+ ";");
 		buildState.setString(1, program.getProgramName());
 		buildState.setString(2, program.getVersion());
-		ResultSet result = buildState.executeQuery();		
+		ResultSet result = buildState.executeQuery();				
 		
 		return result.next();
 	}
