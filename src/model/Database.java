@@ -21,6 +21,17 @@ public class Database {
 		getConnection();
 	}
 	
+	private void initialise() throws SQLException {
+		if(!hasData) 
+			hasData = true;
+		Statement state = con.createStatement();
+		ResultSet result = state.executeQuery("SELECT name FROM sqlite_master WHERE type='table' and name = 'Servers';");
+		
+		if(!result.next()) {
+			buildTables();
+		}
+	}
+	
 	public Server insertServer(Server server) throws SQLException {
 		PreparedStatement buildState = con.prepareStatement("INSERT INTO Servers "
 				+ "(servername, serverbezeichnung, ip, port, user, password, os) VALUES "
@@ -198,13 +209,12 @@ public class Database {
 		buildState.setString(1, program.getProgramName());
 		buildState.setString(2, program.getVersion());
 		ResultSet result = buildState.executeQuery();				
-		
 		return result.next();
 	}
 	
 	public Program[] getProgramsFromServer(Server server) throws SQLException {
 		PreparedStatement buildState = con.prepareStatement("SELECT program, version, last_request "
-				+ "FROM Programs p"
+				+ "FROM Programs p "
 				+ "INNER JOIN Servers_Programs sp "
 				+ "ON p.id = sp.program_fk "
 				+ "WHERE sp.server_fk = ("
@@ -296,17 +306,7 @@ public class Database {
 		initialise();
 	}
 	
-	private void initialise() throws SQLException {
-		if(!hasData) 
-			hasData = true;
-		Statement state = con.createStatement();
-		ResultSet result = state.executeQuery("SELECT name FROM sqlite_master WHERE type='table' and name = 'Servers';");
-		
-		if(!result.next()) {
-			buildTables();
-		}
-		
-	}
+	
 	
 	private void buildTables() throws SQLException {
 		System.out.println("Building the necessary tables");

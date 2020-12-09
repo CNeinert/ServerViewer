@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.image.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.*?>
-<?import javafx.embed.swing.*?>
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" minWidth="650.0" prefHeight="400.0" prefWidth="650.0" styleClass="pane-main" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="run.View">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" styleClass="pane-main" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="run.View">
    <children>
       <GridPane>
         <columnConstraints>
@@ -64,7 +69,24 @@
                      </children>
                   </GridPane>
                </children></Pane>
-            <Pane id="pain-content" prefHeight="300.0" prefWidth="500.0" styleClass="pain-content" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Pane id="pain-content" prefHeight="300.0" prefWidth="500.0" styleClass="pain-content" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <children>
+                  <ScrollPane layoutX="63.0" layoutY="61.0" prefHeight="200.0" prefWidth="200.0">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <TableView onSort="#enterServer1" prefHeight="200.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <columns>
+                                  <TableColumn prefWidth="99.0" text="C1" />
+                                  <TableColumn prefWidth="81.0" text="C2" />
+                                </columns>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </ScrollPane>
+                  <Label layoutX="63.0" layoutY="36.0" prefHeight="25.0" prefWidth="200.0" text="Server: 001" />
+               </children></Pane>
             <Pane prefHeight="200.0" prefWidth="200.0" styleClass="pain-brand">
                <children>
                   <Label id="lbl-headline" alignment="CENTER" layoutY="10.0" minWidth="150.0" prefHeight="30.0" prefWidth="150.0" text="ServerViewer">

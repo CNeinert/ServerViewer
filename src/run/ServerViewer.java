@@ -1,16 +1,19 @@
 package run;
 
+import java.sql.SQLException;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
 import controller.DataController;
+import model.Database;
 import model.Program;
 import model.Server;
 
 public class ServerViewer {
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ClassNotFoundException, SQLException {
+		DataController dc = new DataController();
 		
 		
 		System.out.print("Setup server connection... ");
@@ -36,9 +39,18 @@ public class ServerViewer {
 		 for( Entry<Object, Program> me:st)
 		    {
 			  Program output = me.getValue();
-			  System.out.println(output.getProgramName()+ "  -  "+output.getVersion());
+			  //System.out.println(output.getProgramName()+ "  -  "+output.getVersion());
 			  DataController.SaveProgram(output, Server.getServerById(1));
 			 
 		    }
+		 
+		 System.out.println("---------------------------------------------------");
+		 System.out.println("|                 FROM DATABASE                   |");
+		 System.out.println("---------------------------------------------------");
+		 var programms = DataController.getProgramsFromServer(Server.getServerById(1));
+		 System.out.println(programms[0].getProgramName());
+		 for(Program i : programms) {
+			 System.out.println(i.getProgramName()+" + "+i.getVersion());
+		 }
 	}
 }
