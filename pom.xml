@@ -1,0 +1,60 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>ServerViewer</groupId>
+  <artifactId>ServerViewer</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <build>
+    <sourceDirectory>src</sourceDirectory>
+    <resources>
+      <resource>
+        <directory>src</directory>
+        <excludes>
+          <exclude>**/*.java</exclude>
+        </excludes>
+      </resource>
+    </resources>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version>
+        <configuration>
+          <release>14</release>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <dependencies>
+  <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-controls -->
+	<dependency>
+	    <groupId>org.openjfx</groupId>
+	    <artifactId>javafx-controls</artifactId>
+	    <version>15.0.1</version>
+	</dependency>
+  <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-fxml -->
+	<dependency>
+	    <groupId>org.openjfx</groupId>
+	    <artifactId>javafx-fxml</artifactId>
+	    <version>15.0.1</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.openjfx/javafx-swing -->
+	<dependency>
+	    <groupId>org.openjfx</groupId>
+	    <artifactId>javafx-swing</artifactId>
+	    <version>15.0.1</version>
+	</dependency>
+
+	<!-- https://mvnrepository.com/artifact/com.jcraft/jsch -->
+	<dependency>
+	    <groupId>com.jcraft</groupId>
+	    <artifactId>jsch</artifactId>
+	    <version>0.1.55</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc -->
+	<dependency>
+	    <groupId>org.xerial</groupId>
+	    <artifactId>sqlite-jdbc</artifactId>
+	    <version>3.32.3.2</version>
+	</dependency>
+	
+  </dependencies>
+</project>

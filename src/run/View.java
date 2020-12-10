@@ -1,7 +1,5 @@
 package run;
 
-import java.util.Map;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
