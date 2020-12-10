@@ -26,7 +26,7 @@ public class Database {
 			hasData = true;
 		Statement state = con.createStatement();
 		ResultSet result = state.executeQuery("SELECT name FROM sqlite_master WHERE type='table' and name = 'Servers';");
-		
+		System.out.println("SQL RESULT: "+result.toString());
 		if(!result.next()) {
 			buildTables();
 		}
@@ -171,6 +171,11 @@ public class Database {
 	}
 	
 	public void insertProgramm(Program program, Server server) throws SQLException {
+		if(server.getIp() == null) {
+			System.out.println("NO SERVER IP");
+			System.out.println(server.getServername());
+		}
+		
 		SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
 		Date date = new Date(System.currentTimeMillis());
 		
@@ -187,13 +192,13 @@ public class Database {
 		}
 		PreparedStatement buildState = con.prepareStatement("INSERT INTO Servers_Programs (server_fk, program_fk) "
 				+ "SELECT s.id, p.id "
-				+ "FROM servers s "
-				+ "CROSS JOIN programs p "
+				+ "FROM servers AS s "
+				+ "CROSS JOIN programs AS p "
 				+ "WHERE s.ip = ? "
 				+ "AND p.program = ? "
 				+ "AND p.version = ?"
 				+ ";");
-		buildState.setString(1, server.getIp());
+		buildState.setString(1, server.getIp().toString());
 		buildState.setString(2, program.getProgramName());
 		buildState.setString(3, program.getVersion());
 		
@@ -214,8 +219,8 @@ public class Database {
 	
 	public Program[] getProgramsFromServer(Server server) throws SQLException {
 		PreparedStatement buildState = con.prepareStatement("SELECT program, version, last_request "
-				+ "FROM Programs p "
-				+ "INNER JOIN Servers_Programs sp "
+				+ "FROM Programs AS p "
+				+ "INNER JOIN Servers_Programs AS sp "
 				+ "ON p.id = sp.program_fk "
 				+ "WHERE sp.server_fk = ("
 				+ "	SELECT id "

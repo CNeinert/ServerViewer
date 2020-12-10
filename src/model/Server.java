@@ -44,6 +44,7 @@ public class Server {
 				.setHost("161.97.73.151")
 				.setUser("test")
 				.setPassword("+-X+g#zDNeHYe!:F")
+				.setIp("161.97.73.151")
 			;
 			break;
 		case 2:
@@ -51,6 +52,7 @@ public class Server {
 				.setHost("144.91.125.174")
 				.setUser("astest")
 				.setPassword("=X(efR_#_zwj9wZ{")
+				.setIp("144.91.125.174");
 			;
 			break;
 		}
