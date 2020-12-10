@@ -23,7 +23,7 @@
           <release>14</release>
         </configuration>
       </plugin>
-      <!-- Assemble JAR -->
+      <!-- ASSEMBLE JAR -->
       <plugin>
       	<artifactId>maven-assembly-plugin</artifactId>
       	<version>3.1.0</version>
