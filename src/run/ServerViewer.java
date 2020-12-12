@@ -39,7 +39,7 @@ public class ServerViewer {
 		 System.out.println("---------------------------------------------------");
 		 System.out.println("|                 FROM DATABASE                   |");
 		 System.out.println("---------------------------------------------------");
-		 var programms = DataController.getProgramsFromServer(thisServer);
+		 Program[] programms = DataController.getProgramsFromServer(thisServer);
 		 System.out.println(programms[0].getProgramName());
 		 for(Program i : programms) {
 			 System.out.println(i.getProgramName()+" + "+i.getVersion());
