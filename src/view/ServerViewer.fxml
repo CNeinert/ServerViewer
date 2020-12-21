@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
@@ -15,7 +16,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" styleClass="pane-main" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="run.View">
+<StackPane fx:id="ServerViewerMain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" styleClass="pane-main" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="run.View">
    <children>
       <GridPane>
         <columnConstraints>
@@ -29,7 +30,7 @@
          <children>
             <Pane prefHeight="50.0" prefWidth="500.0" styleClass="pain-headline" GridPane.columnIndex="1">
                <children>
-                  <Label id="lbl-headline" alignment="CENTER" layoutY="10.0" minWidth="500.0" prefHeight="21.0" prefWidth="500.0" text="Headline">
+                  <Label id="lbl-headline" alignment="CENTER" layoutY="15.0" minWidth="500.0" prefHeight="21.0" prefWidth="500.0" text="Overview">
                      <font>
                         <Font size="20.0" />
                      </font>
@@ -71,21 +72,126 @@
                </children></Pane>
             <Pane id="pain-content" prefHeight="300.0" prefWidth="500.0" styleClass="pain-content" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
-                  <ScrollPane layoutX="63.0" layoutY="61.0" prefHeight="200.0" prefWidth="200.0">
-                    <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
-                           <children>
-                              <TableView onSort="#enterServer1" prefHeight="200.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                <columns>
-                                  <TableColumn prefWidth="99.0" text="C1" />
-                                  <TableColumn prefWidth="81.0" text="C2" />
-                                </columns>
-                              </TableView>
-                           </children>
-                        </AnchorPane>
-                    </content>
-                  </ScrollPane>
-                  <Label layoutX="63.0" layoutY="36.0" prefHeight="25.0" prefWidth="200.0" text="Server: 001" />
+                  <AnchorPane layoutX="100.0" layoutY="66.0" prefHeight="244.0" prefWidth="267.0">
+                     <children>
+                        <ScrollPane layoutX="17.0" layoutY="25.0" prefHeight="200.0" prefWidth="233.0">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="215.0">
+                                 <children>
+                                    <TableView prefHeight="200.0" prefWidth="215.0">
+                                      <columns>
+                                        <TableColumn prefWidth="102.0" text="C1" />
+                                        <TableColumn prefWidth="111.0" text="C2" />
+                                      </columns>
+                                    </TableView>
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </ScrollPane>
+                        <Label layoutX="20.0" layoutY="2.0" prefHeight="25.0" prefWidth="233.0" text="Server: 001" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane layoutX="400.0" layoutY="66.0" prefHeight="244.0" prefWidth="267.0">
+                     <children>
+                        <ScrollPane layoutX="17.0" layoutY="25.0" prefHeight="200.0" prefWidth="233.0">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="215.0">
+                                 <children>
+                                    <TableView prefHeight="200.0" prefWidth="215.0">
+                                       <columns>
+                                          <TableColumn prefWidth="102.0" text="C1" />
+                                          <TableColumn prefWidth="111.0" text="C2" />
+                                       </columns>
+                                    </TableView>
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </ScrollPane>
+                        <Label layoutX="20.0" layoutY="2.0" prefHeight="25.0" prefWidth="233.0" text="Server: 001" />
+                     </children>
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
+                  </AnchorPane>
+                  <AnchorPane layoutX="700.0" layoutY="66.0" prefHeight="244.0" prefWidth="267.0">
+                     <children>
+                        <ScrollPane layoutX="17.0" layoutY="25.0" prefHeight="200.0" prefWidth="233.0">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="215.0">
+                                 <children>
+                                    <TableView prefHeight="200.0" prefWidth="215.0">
+                                       <columns>
+                                          <TableColumn prefWidth="102.0" text="C1" />
+                                          <TableColumn prefWidth="111.0" text="C2" />
+                                       </columns>
+                                    </TableView>
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </ScrollPane>
+                        <Label layoutX="20.0" layoutY="2.0" prefHeight="25.0" prefWidth="233.0" text="Server: 001" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane layoutX="100.0" layoutY="350.0" prefHeight="244.0" prefWidth="267.0">
+                     <children>
+                        <ScrollPane layoutX="17.0" layoutY="25.0" prefHeight="200.0" prefWidth="233.0">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="215.0">
+                                 <children>
+                                    <TableView prefHeight="200.0" prefWidth="215.0">
+                                       <columns>
+                                          <TableColumn prefWidth="102.0" text="C1" />
+                                          <TableColumn prefWidth="111.0" text="C2" />
+                                       </columns>
+                                    </TableView>
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </ScrollPane>
+                        <Label layoutX="20.0" layoutY="2.0" prefHeight="25.0" prefWidth="233.0" text="Server: 001" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane layoutX="400.0" layoutY="350.0" prefHeight="244.0" prefWidth="267.0">
+                     <children>
+                        <ScrollPane layoutX="17.0" layoutY="25.0" prefHeight="200.0" prefWidth="233.0">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="215.0">
+                                 <children>
+                                    <TableView prefHeight="200.0" prefWidth="215.0">
+                                       <columns>
+                                          <TableColumn prefWidth="102.0" text="C1" />
+                                          <TableColumn prefWidth="111.0" text="C2" />
+                                       </columns>
+                                    </TableView>
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </ScrollPane>
+                        <Label layoutX="20.0" layoutY="2.0" prefHeight="25.0" prefWidth="233.0" text="Server: 001" />
+                     </children>
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
+                  </AnchorPane>
+                  <AnchorPane layoutX="700.0" layoutY="350.0" prefHeight="244.0" prefWidth="267.0">
+                     <children>
+                        <ScrollPane layoutX="17.0" layoutY="25.0" prefHeight="200.0" prefWidth="233.0">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="215.0">
+                                 <children>
+                                    <TableView prefHeight="200.0" prefWidth="215.0">
+                                       <columns>
+                                          <TableColumn prefWidth="102.0" text="C1" />
+                                          <TableColumn prefWidth="111.0" text="C2" />
+                                       </columns>
+                                    </TableView>
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </ScrollPane>
+                        <Label layoutX="20.0" layoutY="2.0" prefHeight="25.0" prefWidth="233.0" text="Server: 001" />
+                     </children>
+                  </AnchorPane>
                </children></Pane>
             <Pane prefHeight="200.0" prefWidth="200.0" styleClass="pain-brand">
                <children>

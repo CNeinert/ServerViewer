@@ -10,12 +10,12 @@ public class Main extends Application{
 	
 	@Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("ServerViewer.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/view/ServerViewer.fxml"));
         primaryStage.setTitle("ServerViewer");
-        primaryStage.setMinHeight(450);
-		primaryStage.setMinWidth(675);
-        Scene scene = new Scene(root, 650, 400);
-        scene.getStylesheets().add("/run/base.css");
+        primaryStage.setMinHeight(700);
+		primaryStage.setMinWidth(1250);
+        Scene scene = new Scene(root, 1250, 700);
+        scene.getStylesheets().add("/view/base.css");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
