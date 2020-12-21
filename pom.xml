@@ -32,7 +32,16 @@
     </resources>
     <plugins>
     <!-- COMPILE -->
-      <plugin>
+    
+    <plugin>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-maven-plugin</artifactId>
+        <version>0.0.5</version>
+        <configuration>
+            <mainClass>run.Main</mainClass>
+        </configuration>
+    </plugin>
+    <plugin>
       <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
         <version>3.3.0</version>
@@ -40,7 +49,7 @@
           <release>14</release>
       		<archive>
       			<manifest>
-      				<mainClass>ServerViewer.ServerViewer.run.Main</mainClass>
+      				<mainClass>run.Main</mainClass>
       			</manifest>
       		</archive>
       		<descriptorRefs>
