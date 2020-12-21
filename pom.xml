@@ -8,8 +8,6 @@
       <layout>default</layout>
     </repository>
  </distributionManagement>
-  
-  
   <modelVersion>4.0.0</modelVersion>
   <groupId>ServerViewer</groupId>
   <artifactId>ServerViewer</artifactId>
