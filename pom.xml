@@ -2,25 +2,23 @@
   <distributionManagement>
     <repository>
       <uniqueVersion>false</uniqueVersion>
-      <id>ServerViewer</id>
+      <id>github</id>
       <name>ServerViewer</name>
-      <url>scp://ServerViewer/maven2</url>
+      <url>https://maven.pkg.github.com/cneinert/ServerViewer</url>
       <layout>default</layout>
     </repository>
  </distributionManagement>
-  
   
   <modelVersion>4.0.0</modelVersion>
   <groupId>ServerViewer</groupId>
   <artifactId>ServerViewer</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
   <properties>
    <maven.compiler.source>7</maven.compiler.source>
    <maven.compiler.target>1.7</maven.compiler.target>
  </properties>
-  
   <!-- BUILD -->
-  
   <build>
     <sourceDirectory>src</sourceDirectory>
     <resources>
@@ -39,7 +37,6 @@
         <version>3.3.0</version>
         <configuration>
           <release>14</release>
-        
       		<archive>
       			<manifest>
       				<mainClass>ServerViewer.ServerViewer.run.Main</mainClass>
@@ -51,7 +48,6 @@
       	</configuration>
       	<executions>
       		<execution>
-      			
       			<phase>package</phase>
       			<goals>
       				<goal>single</goal>
@@ -94,6 +90,5 @@
 	    <artifactId>sqlite-jdbc</artifactId>
 	    <version>3.32.3.2</version>
 	</dependency>
-	
   </dependencies>
 </project>
