@@ -9,4 +9,8 @@ public class V_ServerViewerController {
 	public void showSettings(){
 		
 	}
+	
+	public void showOverview(){
+		
+	}
 }

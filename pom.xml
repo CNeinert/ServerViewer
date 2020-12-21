@@ -11,11 +11,12 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>ServerViewer</groupId>
   <artifactId>ServerViewer</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.2-SNAPSHOT</version>
   <packaging>jar</packaging>
   <properties>
    <maven.compiler.source>7</maven.compiler.source>
    <maven.compiler.target>1.7</maven.compiler.target>
+   <javafx.version>15.0.1</javafx.version>
  </properties>
   
   <!-- BUILD -->
@@ -58,6 +59,7 @@
       	</configuration>
       	<executions>
       		<execution>
+      			<id>make-assembly</id>
       			<phase>package</phase>
       			<goals>
       				<goal>single</goal>
