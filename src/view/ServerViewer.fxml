@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="ServerViewerMain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" styleClass="pane-main" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="run.View">
+<fx:root fx:id="ServerViewerMain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" styleClass="pane-main" type="StackPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.V_ServerViewerController">
    <children>
       <GridPane>
         <columnConstraints>
@@ -50,7 +50,7 @@
                      <children>
                         <Pane prefHeight="200.0" prefWidth="150.0" styleClass="pain-menu-bottom" GridPane.rowIndex="1">
                            <children>
-                              <Button contentDisplay="TOP" layoutX="35.0" layoutY="190.0" maxHeight="85.0" maxWidth="85.0" minHeight="85.0" minWidth="85.0" mnemonicParsing="false" onAction="#showSettings" prefHeight="85.0" prefWidth="85.0" styleClass="button-img" text="Settings">
+                              <Button id="SettingsButton" fx:id="SettingsButton" contentDisplay="TOP" layoutX="35.0" layoutY="190.0" maxHeight="85.0" maxWidth="85.0" minHeight="85.0" minWidth="85.0" mnemonicParsing="false" prefHeight="85.0" prefWidth="85.0" styleClass="button-img" text="Settings">
                                  <graphic>
                                     <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -205,4 +205,4 @@
          </children>
       </GridPane>
    </children>
-</StackPane>
+</fx:root>
