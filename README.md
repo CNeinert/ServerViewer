@@ -1,4 +1,5 @@
 # ServerViewer
+![Maven Package](https://github.com/CNeinert/ServerViewer/workflows/Maven%20Package/badge.svg?branch=master)
 School AS Project
 
 ## Project Setup:
