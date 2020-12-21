@@ -27,7 +27,7 @@ jobs:
     - name: Step 2 - Build with Maven
       run: |
         mvn -B package --file pom.xml
-	      mkdir staging && cp target/*.jar staging
+        mkdir staging && cp target/*.jar staging
 
     - name: Step 3 - Persist workflow data as artifacts	
       uses: actions/upload-artifact@v2
