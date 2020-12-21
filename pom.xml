@@ -8,7 +8,6 @@
       <layout>default</layout>
     </repository>
  </distributionManagement>
-  
   <modelVersion>4.0.0</modelVersion>
   <groupId>ServerViewer</groupId>
   <artifactId>ServerViewer</artifactId>
@@ -18,7 +17,9 @@
    <maven.compiler.source>7</maven.compiler.source>
    <maven.compiler.target>1.7</maven.compiler.target>
  </properties>
+  
   <!-- BUILD -->
+  
   <build>
     <sourceDirectory>src</sourceDirectory>
     <resources>
