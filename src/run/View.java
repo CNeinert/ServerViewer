@@ -1,8 +1,12 @@
 package run;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
+import javafx.stage.Stage;
 
 public class View {
 
@@ -30,7 +34,15 @@ public class View {
 //		System.out.println(scanresult);
     }
     
-    public void showSettings() {
+    public void showSettings(Stage primaryStage) throws Exception {
+    	Parent root = FXMLLoader.load(getClass().getResource("/view/Settings.fxml"));
+        primaryStage.setTitle("ServerViewer");
+        primaryStage.setMinHeight(700);
+		primaryStage.setMinWidth(1250);
+        Scene scene = new Scene(root, 1250, 700);
+        scene.getStylesheets().add("/view/base.css");
+        primaryStage.setScene(scene);
+        primaryStage.show();
     	
     }
     

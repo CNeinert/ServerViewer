@@ -10,7 +10,7 @@ public class Main extends Application{
 	
 	@Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("/view/ServerViewer.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/view/Overview.fxml"));
         primaryStage.setTitle("ServerViewer");
         primaryStage.setMinHeight(700);
 		primaryStage.setMinWidth(1250);

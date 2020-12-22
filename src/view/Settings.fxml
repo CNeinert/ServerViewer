@@ -52,7 +52,7 @@
                      <children>
                         <Pane prefHeight="200.0" prefWidth="150.0" styleClass="pain-menu-bottom" GridPane.rowIndex="1">
                            <children>
-                              <Button contentDisplay="TOP" layoutX="35.0" layoutY="190.0" maxHeight="85.0" maxWidth="85.0" minHeight="85.0" minWidth="85.0" mnemonicParsing="false" onAction="#showSettings" prefHeight="85.0" prefWidth="85.0" styleClass="button-img" text="Settings">
+                              <Button contentDisplay="TOP" layoutX="35.0" layoutY="190.0" maxHeight="85.0" maxWidth="85.0" minHeight="85.0" minWidth="85.0" mnemonicParsing="false" prefHeight="85.0" prefWidth="85.0" styleClass="button-img" text="Settings">
                                  <graphic>
                                     <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
