@@ -12,6 +12,7 @@ import model.Server;
 public class ServerViewer {
 	
 	public static void main(String[] args) {
+		
 		System.out.print("Setup server connection... ");
 		ServerConnection obj_connectionTest = new ServerConnection(1);
 		System.out.println("done.");
@@ -23,13 +24,22 @@ public class ServerViewer {
 		
 		
 		Set<Entry<Object, Program>> st = scanresult.entrySet();
-		Server thisServer = Server.getServerById(1);
+		int size = scanresult.size();
+		int index = 1;
+		
+		Server thisServer = Server.getServerById(2);
+		DataController.SaveServer(thisServer);
+		
 		 for( Entry<Object, Program> me:st)
 		    {
 			  Program output = me.getValue();
 			  //System.out.println(output.getProgramName()+ "  -  "+output.getVersion());
 			  DataController.SaveProgram(output, thisServer);
-			 
+			  if(index % 10 == 0) {
+				  System.out.println("Inserting Program "+index+"/"+size);
+			  }
+			  
+			  index++;
 		    }
 		 
 		 System.out.println("---------------------------------------------------");

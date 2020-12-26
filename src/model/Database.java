@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 //TODO lösch funktionen schreiben für ggf Program und Server
@@ -217,33 +218,38 @@ public class Database {
 		return result.next();
 	}
 	
-	public Program[] getProgramsFromServer(Server server) throws SQLException {
-		PreparedStatement buildState = con.prepareStatement("SELECT program, version, last_request "
-				+ "FROM Programs AS p "
-				+ "INNER JOIN Servers_Programs AS sp "
-				+ "ON p.id = sp.program_fk "
-				+ "WHERE sp.server_fk = ("
-				+ "	SELECT id "
-				+ "	FROM servers "
-				+ "	WHERE ip = ?"
-				+ ");");
-		buildState.setString(1, server.getIp());
-		ResultSet result = buildState.executeQuery();
-				
-		Program[] programs = new Program[result.getFetchSize()];
+	public Program[] getProgramsFromServer(Server server) throws SQLException{
 		
+		PreparedStatement buildState = con.prepareStatement(
+				"SELECT program, version, last_request FROM Programs AS p "
+				+ "INNER JOIN Servers_Programs AS sp ON p.id = sp.program_fk "
+				+ "WHERE sp.server_fk = (SELECT id FROM servers WHERE ip = ?);"
+				);
+		buildState.setString(1, server.getIp());
+		
+		ResultSet result = buildState.executeQuery();
+		//System.out.println(result.first());
+		Program[] programArray = new Program[0];
+		ArrayList<Program> programList = new ArrayList<Program>();
 		int i = 0;
 		while(result.next()) {
-			programs[i] = new Program();
 			
-			programs[i].setProgramName(result.getString("program"));			
-			programs[i].setVersion(result.getString("version"));
-			programs[i].setLastRequest(result.getString("last_request"));
 			
-			updateLastRequest(programs[i]);
+			Program program = new Program();
+			
+			program.setProgramName(result.getString("program"));			
+			program.setVersion(result.getString("version"));
+			program.setLastRequest(result.getString("last_request"));
+			
+			programList.add(program);
+			programArray = programList.toArray(programArray);
+			//updateLastRequest(programArray[i]);
 			i++;
 		}
-		return programs;
+		return programArray;
+		
+		
+		
 	}
 
 	public Server[] getServersFromProgram(Program program) throws SQLException {
@@ -293,12 +299,13 @@ public class Database {
 		
 		PreparedStatement buildState = con.prepareStatement(""
 				+ "UPDATE Programs SET "
-				+ "last_request = '"
+				+ "last_request = "
 				+ formatter.format(date)
-				+ "', "
+				+ ", "
 				+ "WHERE program = ?, "
 				+ "AND version = ?"
 				+ ";");
+		
 		buildState.setString(1, program.getProgramName());
 		buildState.setString(2, program.getVersion());
 		buildState.executeQuery();

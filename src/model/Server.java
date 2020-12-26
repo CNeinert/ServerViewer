@@ -46,6 +46,10 @@ public class Server {
 				.setPassword("+-X+g#zDNeHYe!:F")
 				.setIp("161.97.73.151")
 			;
+			this.setBezeichnung("Server 1");
+			this.setServername("Server 1");
+			this.setOs("Debian");
+			this.setPort(22);
 			break;
 		case 2:
 			this
@@ -54,6 +58,10 @@ public class Server {
 				.setPassword("=X(efR_#_zwj9wZ{")
 				.setIp("144.91.125.174");
 			;
+			this.setBezeichnung("Server 2");
+			this.setServername("Server 2");
+			this.setOs("Debian");
+			this.setPort(22);
 			break;
 		}
 		
