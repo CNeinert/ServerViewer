@@ -4,12 +4,9 @@ public class Program {
 	
 	private String programName;
 	private String version;
-	private String lastRequest;
 	
 	
-	public Program() {
-		// TODO Auto-generated constructor stub
-	}
+	public Program() {	}
 	
 	public Program(String Name, String Version) {
 		this.setProgramName(Name);
@@ -36,13 +33,4 @@ public class Program {
 		this.version = version;
 	}
 
-
-	public String getLastRequest() {
-		return lastRequest;
-	}
-
-
-	public void setLastRequest(String lastRequest) {
-		this.lastRequest = lastRequest;
-	}
 }

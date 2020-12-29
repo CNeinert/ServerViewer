@@ -34,6 +34,9 @@ public class Database {
 	}
 	
 	public Server insertServer(Server server) throws SQLException {
+		if (isExistingServer(server)) {
+			return server;
+		}
 		PreparedStatement buildState = con.prepareStatement("INSERT INTO Servers "
 				+ "(servername, serverbezeichnung, ip, port, user, password, os) VALUES "
 				+ "(?, ?, ?, ?, ?, ?, ?);");
@@ -48,6 +51,23 @@ public class Database {
 		buildState.execute();
 		
 		return server;
+	}
+	
+	public Boolean isExistingServer(Server server ) {
+		
+		try {
+			PreparedStatement buildState = con.prepareStatement(
+					"SELECT 1 FROM Servers WHERE ip = ?;"
+					);
+			buildState.setString(1, server.getIp());
+			ResultSet result = buildState.executeQuery();
+			if(result.next()) {
+				return true;
+			}
+		} catch (SQLException e) {
+			return false;
+		}
+		return false;
 	}
 	
 	public Server getServer(int id) throws SQLException {
@@ -182,10 +202,8 @@ public class Database {
 		
 		if(!programExists(program)) {
 			PreparedStatement buildStatePre = con.prepareStatement("INSERT INTO Programs "
-					+ " (program, version, last_request) VALUES "
-					+ "(?, ?, '"
-					+ formatter.format(date)
-					+ "');");
+					+ " (program, version) VALUES "
+					+ "(?, ?)");
 			buildStatePre.setString(1, program.getProgramName());
 			buildStatePre.setString(2, program.getVersion());
 			
@@ -218,10 +236,11 @@ public class Database {
 		return result.next();
 	}
 	
+	//Gets all Programs of a single Server from the Database
 	public Program[] getProgramsFromServer(Server server) throws SQLException{
 		
 		PreparedStatement buildState = con.prepareStatement(
-				"SELECT program, version, last_request FROM Programs AS p "
+				"SELECT program, version FROM Programs AS p "
 				+ "INNER JOIN Servers_Programs AS sp ON p.id = sp.program_fk "
 				+ "WHERE sp.server_fk = (SELECT id FROM servers WHERE ip = ?);"
 				);
@@ -233,17 +252,13 @@ public class Database {
 		ArrayList<Program> programList = new ArrayList<Program>();
 		int i = 0;
 		while(result.next()) {
-			
-			
 			Program program = new Program();
 			
 			program.setProgramName(result.getString("program"));			
 			program.setVersion(result.getString("version"));
-			program.setLastRequest(result.getString("last_request"));
-			
 			programList.add(program);
 			programArray = programList.toArray(programArray);
-			//updateLastRequest(programArray[i]);
+			
 			i++;
 		}
 		return programArray;
@@ -251,7 +266,7 @@ public class Database {
 		
 		
 	}
-
+	//Get all Servers where the specified Program is installed
 	public Server[] getServersFromProgram(Program program) throws SQLException {
 		PreparedStatement buildState = con.prepareStatement("SELECT id, servername, serverbezeichnung, ip, port, user, password, os "
 				+ "FROM servers s "
@@ -292,24 +307,6 @@ public class Database {
 		return servers;
 	}
 	
-	private void updateLastRequest(Program program) throws SQLException {
-		//Hier die Datums formatiereung für last_request anpassen
-		SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
-		Date date = new Date(System.currentTimeMillis());
-		
-		PreparedStatement buildState = con.prepareStatement(""
-				+ "UPDATE Programs SET "
-				+ "last_request = "
-				+ formatter.format(date)
-				+ ", "
-				+ "WHERE program = ?, "
-				+ "AND version = ?"
-				+ ";");
-		
-		buildState.setString(1, program.getProgramName());
-		buildState.setString(2, program.getVersion());
-		buildState.executeQuery();
-	}
 	
 	private void getConnection() throws ClassNotFoundException, SQLException {
 		Class.forName("org.sqlite.JDBC");
@@ -344,8 +341,7 @@ public class Database {
 		buildState.execute("CREATE TABLE Programs ("
 				+ "id INTEGER PRIMARY KEY AUTOINCREMENT, "
 				+ "program TEXT NOT NULL, "
-				+ "version TEXT NOT NULL, "
-				+ "last_request TEXT NOT NULL"
+				+ "version TEXT NOT NULL "
 				+ ");");
 		buildState.execute("CREATE TABLE Servers_Programs ("
 				+ "id INTEGER PRIMARY KEY AUTOINCREMENT, "
