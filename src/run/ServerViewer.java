@@ -27,7 +27,7 @@ public class ServerViewer {
 		int size = scanresult.size();
 		int index = 1;
 		
-		Server thisServer = Server.getServerById(2);
+		Server thisServer = Server.getServerById(1);
 		DataController.SaveServer(thisServer);
 		
 		 for( Entry<Object, Program> me:st)
@@ -47,8 +47,17 @@ public class ServerViewer {
 		 System.out.println("---------------------------------------------------");
 		 Program[] programms = DataController.getProgramsFromServer(thisServer);
 		 System.out.println(programms[0].getProgramName());
+		 int Programindex = 0;
 		 for(Program i : programms) {
-			 System.out.println(i.getProgramName()+" + "+i.getVersion());
+			 Programindex++;
+			 if (Programindex < 10) {
+				 System.out.println(i.getProgramName()+" + "+i.getVersion());
+			 }else {continue;}
 		 }
+		 Server[] servers = DataController.getAllServers();
+		 for(Server i : servers) {
+			 System.out.println(i.getIp());
+		 }
+		 
 	}
 }

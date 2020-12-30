@@ -100,32 +100,36 @@ public class Database {
 	
 	public Server[] getServers() throws SQLException {
 		
-		PreparedStatement buildState = con.prepareStatement("SELECT id, servername, serverbezeichnung, ip, port, user, password, os "
+		PreparedStatement buildState = con.prepareStatement("SELECT id, servername, serverbezeichnung, ip, port, user, password, os, enabled "
 				+ "FROM Servers;");	
 		ResultSet result = buildState.executeQuery();
 				
-		Server[] servers = new Server[result.getFetchSize()];
-		
+		Server[] servers = new Server[0];
+		ArrayList<Server> serverList = new ArrayList<Server>();
 		int i = 0;
 		while(result.next()) {
-			servers[i] = new Server();
+			Server aserver = new Server();
 			
-			servers[i].setId(result.getInt("id"));
-			servers[i].setServername(result.getString("servername"));
-			servers[i].setBezeichnung(result.getString("serverbezeichnung"));
-			servers[i].setIp(result.getString("ip"));
-			servers[i].setPort(result.getInt("port"));
-			servers[i].setUser(result.getString("user"));
-			servers[i].setPassword(result.getString("password"));
-			servers[i].setOs(result.getString("os"));
+			aserver.setId(result.getInt("id"));
+			aserver.setServername(result.getString("servername"));
+			aserver.setBezeichnung(result.getString("serverbezeichnung"));
+			aserver.setIp(result.getString("ip"));
+			aserver.setPort(result.getInt("port"));
+			aserver.setUser(result.getString("user"));
+			aserver.setPassword(result.getString("password"));
+			aserver.setOs(result.getString("os"));
 			
 			if(result.getInt("enabled") == 1)
-				servers[i].setEnabled(true);
+				aserver.setEnabled(true);
 			else
-				servers[i].setEnabled(false);
+				aserver.setEnabled(false);
+			
+			serverList.add(aserver);
+			servers = serverList.toArray(servers);
 			
 			i++;
 		}
+		
 		return servers;
 	}
 	
