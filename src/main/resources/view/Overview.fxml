@@ -67,6 +67,15 @@
                         </Pane>
                      </children>
                   </GridPane>
+                  <Button id="SettingsButton" contentDisplay="TOP" layoutX="33.0" layoutY="340.0" maxHeight="85.0" maxWidth="85.0" minHeight="85.0" minWidth="85.0" mnemonicParsing="false" onAction="#scan" prefHeight="85.0" prefWidth="85.0" styleClass="button-img" text="Scan">
+                     <graphic>
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../assets/settings.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
                </children></Pane>
             <Pane id="pain-content" prefHeight="300.0" prefWidth="500.0" styleClass="pain-content" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>

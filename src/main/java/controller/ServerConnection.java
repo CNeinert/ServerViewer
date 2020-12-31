@@ -55,7 +55,7 @@ public class ServerConnection {
 			JSch obj_jsch = new JSch();
 
 			// Erstellung eines Verbindungsobjekts des Servers.
-			Session obj_session = obj_jsch.getSession(this.getServer().getUser(), this.getServer().getHost(),
+			Session obj_session = obj_jsch.getSession(this.getServer().getUser(), this.getServer().getIp(),
 					this.getServer().getPort());
 			obj_session.setPassword(this.getServer().getPassword());
 			obj_session.setConfig("StrictHostKeyChecking", "no");
@@ -91,7 +91,7 @@ public class ServerConnection {
 	}
 
 	private Boolean isServerConfigured() {
-		if (this.getServer().getHost() != "" && this.getServer().getPort() != 0 && this.getServer().getUser() != ""
+		if (this.getServer().getPort() != 0 && this.getServer().getUser() != ""
 				&& this.getServer().getPassword() != "") {
 			return true;
 		}

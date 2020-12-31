@@ -3,7 +3,10 @@ package main.java.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
+import java.util.Map.Entry;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -52,7 +55,7 @@ public class OverviewController implements Initializable {
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		System.out.println("INITIALIZE!");
+		System.out.println("INITIALIZE! OVERVIEW");
 		// programName.setCellValueFactory(new PropertyValueFactory<>("Program Name"));
 		// programVersion.setCellValueFactory(new PropertyValueFactory<>("Version"));
 		Server[] servers = DataController.getAllServers();
@@ -93,6 +96,37 @@ public class OverviewController implements Initializable {
 		stage.setScene(new Scene(root));
 		stage.setTitle("Settings");
 		stage.show();
+	}
+	
+	public void scan() {
+		Server[] servers = DataController.getAllServers();
+		
+		for (Server s : servers) {
+			System.out.print("Setup server connection for server: "+s.getServername()+" ... ");
+			ServerConnection obj_connectionTest = new ServerConnection(s);
+			System.out.println("done.");
+
+			System.out.print("Start scanning... ");
+			Map<Object, Program> scanresult = obj_connectionTest.getProgramVersions();
+			System.out.println("done.");
+			
+
+			Set<Entry<Object, Program>> st = scanresult.entrySet();
+			int size = scanresult.size();
+
+			
+			//DataController.SaveServer(s);
+			System.out.print("Inserting " + size + " Programs.. ");
+			for (Entry<Object, Program> me : st) {
+				Program output = me.getValue();
+				// System.out.println(output.getProgramName()+ " - "+output.getVersion());
+				DataController.SaveProgram(output, s);
+			}
+			System.out.println("Done.");
+			initialize(null, null);
+		}
+		
+		
 	}
 
 	public void showOverview() {

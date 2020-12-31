@@ -5,7 +5,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -18,7 +17,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="ServerViewerMain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" styleClass="pane-main" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.run.View">
+<StackPane fx:id="ServerViewerMain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" styleClass="pane-main" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.controller.SettingsController">
    <children>
       <GridPane>
         <columnConstraints>
@@ -76,36 +75,28 @@
                <children>
                   <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="720.0" prefWidth="1091.0">
                      <children>
-                        <Button layoutX="70.0" layoutY="543.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="207.0" text="Add new Server" />
-                        <Button layoutX="498.0" layoutY="575.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="165.0" text="Edit new Server" />
-                        <Button layoutX="707.0" layoutY="575.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="165.0" text="Delete new Server" />
-                        <TableView layoutX="412.0" layoutY="59.0" prefHeight="498.0" prefWidth="553.0">
-                          <columns>
-                              <TableColumn prefWidth="187.0" text="Servername" />
-                            <TableColumn prefWidth="156.0" text="Hostname" />
-                            <TableColumn prefWidth="209.0" text="IP Address" />
-                          </columns>
-                        </TableView>
-                        <ChoiceBox layoutX="71.0" layoutY="439.0" prefHeight="26.0" prefWidth="207.0" />
-                        <Label layoutX="71.0" layoutY="419.0" text="Package Manager" />
-                        <Label layoutX="68.0" layoutY="363.0" text="IP Address" />
-                        <TextField layoutX="68.0" layoutY="330.0" prefHeight="26.0" prefWidth="207.0" />
+                        <Button layoutX="70.0" layoutY="494.0" mnemonicParsing="false" onAction="#addNewServerButtonPressed" prefHeight="30.0" prefWidth="207.0" text="Add new Server" />
+                        <Button disable="true" layoutX="498.0" layoutY="575.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="165.0" text="Edit Server" />
+                        <Button layoutX="707.0" layoutY="575.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="165.0" text="Delete Server" />
+                        <TableView fx:id="TableServers" layoutX="412.0" layoutY="59.0" prefHeight="498.0" prefWidth="553.0" />
+                        <ChoiceBox disable="true" layoutX="71.0" layoutY="390.0" prefHeight="26.0" prefWidth="207.0" />
+                        <Label layoutX="71.0" layoutY="370.0" text="Package Manager" />
+                        <Label layoutX="68.0" layoutY="256.0" text="IP Address" />
+                        <TextField fx:id="txBezeichnung" layoutX="68.0" layoutY="330.0" prefHeight="26.0" prefWidth="207.0" />
                         <Label layoutX="68.0" layoutY="308.0" text="Bezeichnung" />
-                        <TextField layoutX="67.0" layoutY="276.0" prefHeight="26.0" prefWidth="207.0" />
-                        <Label layoutX="67.0" layoutY="254.0" text="Servername" />
+                        <TextField fx:id="txServerName" layoutX="67.0" layoutY="112.0" prefHeight="26.0" prefWidth="207.0" />
+                        <Label layoutX="67.0" layoutY="90.0" text="Servername" />
                         <Label layoutX="67.0" layoutY="199.0" text="Password" />
-                        <TextField layoutX="67.0" layoutY="166.0" prefHeight="26.0" prefWidth="207.0" />
+                        <TextField fx:id="txUser" layoutX="67.0" layoutY="166.0" prefHeight="26.0" prefWidth="207.0" />
                         <Label layoutX="67.0" layoutY="144.0" text="Username" />
-                        <TextField layoutX="67.0" layoutY="109.0" prefHeight="26.0" prefWidth="207.0" />
-                        <Label layoutX="67.0" layoutY="87.0" text="Hostname" />
                         <Separator layoutX="312.0" layoutY="-6.0" orientation="VERTICAL" prefHeight="720.0" prefWidth="33.0" />
-                        <PasswordField layoutX="67.0" layoutY="215.0" prefHeight="26.0" prefWidth="207.0" />
-                        <TextField layoutX="68.0" layoutY="383.0" prefHeight="26.0" prefWidth="50.0" />
-                        <TextField layoutX="120.0" layoutY="383.0" prefHeight="26.0" prefWidth="50.0" />
-                        <TextField layoutX="172.0" layoutY="383.0" prefHeight="26.0" prefWidth="50.0" />
-                        <TextField layoutX="224.0" layoutY="383.0" prefHeight="26.0" prefWidth="50.0" />
-                        <TextField layoutX="70.0" layoutY="499.0" prefHeight="26.0" prefWidth="207.0" text="22" />
-                        <Label layoutX="70.0" layoutY="477.0" text="SSH-Port" />
+                        <PasswordField fx:id="txPassword" layoutX="67.0" layoutY="215.0" prefHeight="26.0" prefWidth="207.0" />
+                        <TextField fx:id="txIp1" layoutX="68.0" layoutY="276.0" prefHeight="26.0" prefWidth="50.0" />
+                        <TextField fx:id="txIp2" layoutX="120.0" layoutY="276.0" prefHeight="26.0" prefWidth="50.0" />
+                        <TextField fx:id="txIp3" layoutX="172.0" layoutY="276.0" prefHeight="26.0" prefWidth="50.0" />
+                        <TextField fx:id="txIp4" layoutX="224.0" layoutY="276.0" prefHeight="26.0" prefWidth="50.0" />
+                        <TextField fx:id="txSsh" layoutX="70.0" layoutY="450.0" prefHeight="26.0" prefWidth="207.0" text="22" />
+                        <Label layoutX="70.0" layoutY="428.0" text="SSH-Port" />
                      </children>
                   </AnchorPane>
                </children></Pane>

@@ -3,9 +3,8 @@ package main.java.model;
 //DB Test Object
 public class Server {
 
-	private String str_host, str_user, str_password, servername, bezeichnung, ip, os
-
-	;
+	private String str_user, str_password, servername, bezeichnung, ip, os;
+	
 	private Integer int_id, int_port = 22;
 
 	private Boolean enabled;
@@ -27,14 +26,14 @@ public class Server {
 
 		switch (this.getId()) {
 		case 1:
-			this.setHost("161.97.73.151").setUser("test").setPassword("+-X+g#zDNeHYe!:F").setIp("161.97.73.151");
+			this.setUser("test").setPassword("+-X+g#zDNeHYe!:F").setIp("161.97.73.151");
 			this.setBezeichnung("Server 1");
 			this.setServername("Server 1");
 			this.setOs("Debian");
 			this.setPort(22);
 			break;
 		case 2:
-			this.setHost("144.91.125.174").setUser("astest").setPassword("=X(efR_#_zwj9wZ{").setIp("144.91.125.174");
+			this.setUser("astest").setPassword("=X(efR_#_zwj9wZ{").setIp("144.91.125.174");
 			;
 			this.setBezeichnung("Server 2");
 			this.setServername("Server 2");
@@ -69,14 +68,6 @@ public class Server {
 		return this;
 	}
 
-	public String getHost() {
-		return this.str_host;
-	}
-
-	public Server setHost(String str_host) {
-		this.str_host = str_host;
-		return this;
-	}
 
 	public String getUser() {
 		return this.str_user;
@@ -137,7 +128,7 @@ public class Server {
 	}
 
 	public String getHash() {
-		return this.getHost() + "|" + this.getPassword() + "|" + this.getUser() + "|" + Integer.toString(this.getId())
+		return this.getPassword() + "|" + this.getUser() + "|" + Integer.toString(this.getId())
 				+ "|" + Integer.toString(this.getPort());
 	}
 }
