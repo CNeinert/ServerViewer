@@ -11,7 +11,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>ServerViewer</groupId>
   <artifactId>ServerViewer</artifactId>
-  <version>0.0.4-SNAPSHOT</version>
+  <version>0.1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
   <properties>
    <maven.compiler.source>7</maven.compiler.source>
@@ -24,76 +24,36 @@
   <build>
     <sourceDirectory>src</sourceDirectory>
     <resources>
-      
-      <resource>
-	      <directory>${basedir}/src/run</directory>
-	      <filtering>false</filtering>  
-      	  <targetPath>run</targetPath>
-      	  <includes>
-                    <include>**/*.fxml</include>
-                </includes>            
-	  </resource>
+        <!-- regular resource processsing for everything except logback.xml -->
+        <resource>
+            <directory>src/main/resources</directory>
+            <excludes>
+                <exclude>logback.xml</exclude>
+            </excludes>
+        </resource>
+        
     </resources>
-    <plugins>
-    <!-- COMPILE -->
     
-    <plugin>
-        <groupId>org.openjfx</groupId>
-        <artifactId>javafx-maven-plugin</artifactId>
-        <version>0.0.5</version>
-        <configuration>
-            <mainClass>run.Main</mainClass>
-        </configuration>
-    </plugin>
-    <plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-jar-plugin</artifactId>
-    <version>3.1.0</version>
-    <configuration>
-        <archive>
-        <manifestEntries>
-              
-              <Main-Class>run.Main</Main-Class>
-              <implementation-vendor>seb</implementation-vendor>
-              <implementation-title>${project.name}</implementation-title>
-              <implementation-version>1.0</implementation-version>
-              <JavaFX-Application-Class>org.jrebirth.presentation.Presentation</JavaFX-Application-Class>
-              <JavaFX-Class-Path>ServerViewer -0.4.0-SNAPSHOT.jar
-                  jaxb-api-2.2.1.jar stax-api-1.0-2.jar activation-1.1.jar
-                  jaxb-impl-2.2.1.jar core-0.4.0-SNAPSHOT.jar
-                                          </JavaFX-Class-Path>
-          </manifestEntries>
-            <manifest>
-                <addClasspath>true</addClasspath>
-            </manifest>
-        </archive>
-    </configuration>
-</plugin>
-    <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <version>3.3.0</version>
-        <configuration>
-          <release>14</release>
-      		<archive>
-      			<manifest>
-      				<mainClass>run.Main</mainClass>
-      			</manifest>
-      		</archive>
-      		<descriptorRefs>
-      			<descriptorRef>jar-with-dependencies</descriptorRef>
-      		</descriptorRefs>
-      	</configuration>
-      	<executions>
-      		<execution>
-      			<id>make-assembly</id>
-      			<phase>package</phase>
-      			<goals>
-      				<goal>single</goal>
-      			</goals>
-      		</execution>
-      	</executions>
-      </plugin>
+    <plugins>
+    
+      
+      <plugin>
+            <artifactId>maven-shade-plugin</artifactId>
+            <executions>
+                <execution>
+                    <phase>package</phase>
+                    <goals><goal>shade</goal></goals>
+                    <configuration>
+                        <transformers>
+                            <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                               
+                                <mainClass>main.java.run.GUIStarter</mainClass>
+                            </transformer>
+                        </transformers>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
     </plugins>
   </build>
   <!-- DEPENDENCIES -->
@@ -102,43 +62,57 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-base</artifactId>
-            <version>15.0.1</version>
+            <version>${javafx.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>15.0.1</version>
+            <version>${javafx.version}</version>
         </dependency>
 
+        <!-- adding all the platform libs only adds a couple more MB -->
         <dependency>
             <groupId>org.openjfx</groupId>
-            <artifactId>javafx-graphics </artifactId>
-            <version>15.0.1</version>
+            <artifactId>javafx-graphics</artifactId>
+            <version>${javafx.version}</version>
+            <classifier>win</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>${javafx.version}</version>
+            <classifier>mac</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>${javafx.version}</version>
+            <classifier>linux</classifier>
         </dependency>
 
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>15.0.1</version>
+            <version>${javafx.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-web</artifactId>
-            <version>15.0.1</version>
+            <version>${javafx.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-media</artifactId>
-            <version>15.0.1</version>
+            <version>${javafx.version}</version>
         </dependency>
 
          <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-swing</artifactId>
-            <version>15.0.1</version>
+            <version>${javafx.version}</version>
         </dependency>
 	<!-- https://mvnrepository.com/artifact/com.jcraft/jsch -->
 	<dependency>

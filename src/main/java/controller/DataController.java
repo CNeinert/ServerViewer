@@ -1,20 +1,20 @@
-package controller;
+package main.java.controller;
 
 import java.sql.SQLException;
 
-import model.Database;
-import model.Program;
-import model.Server;
-import model.User;
+import main.java.model.Database;
+import main.java.model.Program;
+import main.java.model.Server;
+import main.java.model.User;
 
 public class DataController {
-	
+
 	private static Database db;
-	
+
 	static {
 		try {
 			db = new Database();
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -27,9 +27,9 @@ public class DataController {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void SaveServers(Server[] servers) {
-		for(Server server : servers) {
+		for (Server server : servers) {
 			try {
 				db.insertServer(server);
 			} catch (SQLException e) {
@@ -38,7 +38,7 @@ public class DataController {
 			}
 		}
 	}
-	
+
 	public static Server[] getAllServers() {
 		try {
 			return db.getServers();
@@ -48,7 +48,7 @@ public class DataController {
 		}
 		return null;
 	}
-	
+
 	public static void SaveProgram(Program program, Server server) {
 		try {
 			db.insertProgramm(program, server);
@@ -57,9 +57,9 @@ public class DataController {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void SaveProgramsFromServer(Program[] programs, Server server) {
-		for(Program program : programs) {
+		for (Program program : programs) {
 			try {
 				db.insertProgramm(program, server);
 			} catch (SQLException e) {
@@ -68,7 +68,7 @@ public class DataController {
 			}
 		}
 	}
-	
+
 	public static Program[] getProgramsFromServer(Server server) {
 		try {
 			return db.getProgramsFromServer(server);
@@ -76,10 +76,10 @@ public class DataController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
-	
+
 	public static Server[] getServerFromProgram(Program program) {
 		try {
 			return db.getServersFromProgram(program);
@@ -87,10 +87,10 @@ public class DataController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
-	
+
 	public static void SaveNewUser(User user) {
 		try {
 			db.insertUser(user);
@@ -99,7 +99,7 @@ public class DataController {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static User getUser(String username) {
 		try {
 			return db.getUser(username);
@@ -107,10 +107,10 @@ public class DataController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
-	
+
 	public static Server updateServer(Server server) {
 		try {
 			return db.updateServer(server);
@@ -118,7 +118,7 @@ public class DataController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
 }

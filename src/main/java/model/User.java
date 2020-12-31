@@ -1,13 +1,13 @@
-package model;
+package main.java.model;
 
 public class User {
-	
+
 	private String username;
 	private String salt;
 	private String password;
-	
+
 	public User() {
-		//TODO
+		// TODO
 	}
 
 	public String getUsername() {
@@ -33,7 +33,5 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	
 
 }
