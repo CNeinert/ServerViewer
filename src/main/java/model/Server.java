@@ -32,7 +32,7 @@ public class Server {
 			this.setOs("Debian");
 			this.setPort(22);
 			break;
-		case 2:
+		case 2://DEAKTIVIERT!
 			this.setUser("astest").setPassword("=X(efR_#_zwj9wZ{").setIp("144.91.125.174");
 			;
 			this.setBezeichnung("Server 2");

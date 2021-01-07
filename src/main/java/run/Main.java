@@ -6,6 +6,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import main.java.controller.DataController;
+import main.java.controller.ServerConnection;
+import main.java.model.Server;
 
 public class Main extends Application {
 
@@ -22,6 +25,8 @@ public class Main extends Application {
 	}
 
 	public static void main(String[] args) {
+		Server server = new Server(1);
+		DataController.SaveServer(server);
 		launch(args);
 	}
 }

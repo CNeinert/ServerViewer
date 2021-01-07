@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>ServerViewer</groupId>
   <artifactId>ServerViewer</artifactId>
-  <version>0.1.0-SNAPSHOT</version>
+  <version>0.2.1-PROTOTYPE</version>
   <build>
     <sourceDirectory>src</sourceDirectory>
     <resources>

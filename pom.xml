@@ -12,7 +12,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>ServerViewer</groupId>
   <artifactId>ServerViewer</artifactId>
-  <version>0.2.0-PROTOTYPE</version>
+  <version>0.2.1-PROTOTYPE</version>
   <packaging>jar</packaging>
   <properties>
    <maven.compiler.source>7</maven.compiler.source>
